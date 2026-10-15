@@ -1,11 +1,12 @@
 ---
 import simbolo from "../assets/logo/ls-brew-simbolo-fundo-claro.svg?raw";
-const metades = [...simbolo.matchAll(/<path d="(M[^"]+Z)" fill="#2F62D6"\/>/g)].map((m) => m[1]);
+const metades = [...simbolo.matchAll(/<path d="(M[^"]+Z)" fill="#[0-9A-Fa-f]{6}"\/>/g)].map((m) => m[1]);
+if (metades.length !== 2) throw new Error(`Entrada: esperava 2 metades do grão no símbolo, achei ${metades.length}`);
 ---
 <div id="entrada" aria-hidden="true">
   <svg viewBox="17 5 220 220">
-    <path class="m0" d={metades[0]} fill="#2F62D6" />
-    <path class="m1" d={metades[1]} fill="#2F62D6" />
+    <path class="m0" d={metades[0]} fill="var(--grao)" />
+    <path class="m1" d={metades[1]} fill="var(--grao)" />
   </svg>
 </div>
 <noscript><style is:inline>#entrada{display:none}</style></noscript>
