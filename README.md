@@ -33,9 +33,12 @@ A abertura usa uma sequência de quadros em `public/seq/`.
 
 - `bash scripts/quadros-teste.sh` gera quadros numerados só para testar; nunca publique com eles.
 
+## Fotos
+
+Galeria (9 fotos) e foto da origem: WebP de 1200 px em `public/fotos`, dados e créditos em `src/dados/fotos.js`, lista em `docs/fotos-escolhidas.md`. Os originais ficam em `_midia/fotos` (fora do git).
+
 ## Pendências
 
-- Galeria (9 fotos) e foto da origem: WebP de 1200 px em `public/fotos`, dados e créditos em `src/dados/fotos.js`, lista em `docs/fotos-escolhidas.md`.
 - Imagem de compartilhamento `public/og.jpg` (1200 × 630): será gerada com os quadros reais.
 
 ## Como publicar
