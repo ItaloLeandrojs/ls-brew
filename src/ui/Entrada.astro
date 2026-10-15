@@ -8,6 +8,7 @@ const metades = [...simbolo.matchAll(/<path d="(M[^"]+Z)" fill="#2F62D6"\/>/g)].
     <path class="m1" d={metades[1]} fill="#2F62D6" />
   </svg>
 </div>
+<noscript><style is:inline>#entrada{display:none}</style></noscript>
 <script is:inline>
   // Decide antes de pintar, para não piscar: quem não deve ver a entrada nem chega a vê-la.
   (function () {
@@ -32,4 +33,6 @@ const metades = [...simbolo.matchAll(/<path d="(M[^"]+Z)" fill="#2F62D6"\/>/g)].
   @keyframes m1 { from { transform: translate(28px, -18px); opacity: 0; } }
   #entrada.saindo { opacity: 0; pointer-events: none; }
   .sem-entrada #entrada { display: none; }
+  /* Reduzir movimento anula todas as animações; a rede de segurança precisa continuar valendo (id vence o *). */
+  @media (prefers-reduced-motion: reduce) { #entrada { animation: entrada-some .01s 8s forwards !important; } }
 </style>
