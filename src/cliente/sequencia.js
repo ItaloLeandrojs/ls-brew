@@ -31,8 +31,9 @@ async function abrirQuadro(blob) {
  * @param {number} o.altura
  * @param {number} o.maxAbertos  teto de quadros decodificados na memória
  * @param {() => void} [o.aoDesenharPrimeiro]
+ * @param {Promise<unknown>} [o.comecarQuando]  os downloads esperam isto (ex.: a página terminar de carregar)
  */
-export function criarSequencia({ canvas, endereco, total, largura, altura, maxAbertos, aoDesenharPrimeiro }) {
+export function criarSequencia({ canvas, endereco, total, largura, altura, maxAbertos, aoDesenharPrimeiro, comecarQuando = Promise.resolve() }) {
   canvas.width = largura;
   canvas.height = altura;
   const ctx = canvas.getContext("2d", { alpha: false });
@@ -48,14 +49,15 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
   let ligada = true; // desligada = fora da tela: não abre quadros novos
   let destruida = false;
 
-  // Download do grosso para o fino, 6 de cada vez.
+  // Download do grosso para o fino, 4 de cada vez, com prioridade baixa e só depois da página carregar:
+  // assim os quadros não disputam a rede com a primeira imagem (a capa, que é o LCP).
   const ordem = ordemDeCarga(total);
   let proximo = 0;
   const baixar = async () => {
     while (proximo < ordem.length && !destruida) {
       const i = ordem[proximo++];
       try {
-        const r = await fetch(endereco(i));
+        const r = await fetch(endereco(i), { priority: "low" });
         if (!r.ok) continue;
         blobs[i] = await r.blob();
         baixados++;
@@ -63,7 +65,7 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
       } catch { /* rede caiu: o quadro vizinho cobre */ }
     }
   };
-  for (let k = 0; k < 6; k++) baixar();
+  comecarQuando.then(() => { for (let k = 0; k < 4; k++) baixar(); });
 
   // Abre os quadros da janela (até 2 ao mesmo tempo) e fecha os que saíram dela.
   function organizar() {

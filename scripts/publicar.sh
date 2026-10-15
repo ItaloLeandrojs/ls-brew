@@ -2,10 +2,11 @@
 # Gera o site e publica na branch gh-pages (GitHub Pages lê dela).
 set -euo pipefail
 cd "$(dirname "$0")/.."
-# Não publica sem os vídeos da abertura no git (computador e celular).
-for f in public/video/abertura.mp4 public/video/abertura-celular.mp4; do
-  if [ -z "$(git ls-files "$f")" ]; then
-    echo "Vídeo da abertura fora do git ($f) — publicação bloqueada."
+# Não publica sem os 120 quadros da abertura no git (celular e computador).
+for d in celular computador; do
+  n=$(git ls-files "public/abertura/$d/*.webp" | wc -l)
+  if [ "$n" -ne 120 ]; then
+    echo "Quadros da abertura ($d) no git: $n de 120 — publicação bloqueada."
     exit 1
   fi
 done

@@ -33,6 +33,15 @@ export function iniciarAbertura(secao) {
   let raf = 0;
   let visivel = false;
 
+  // Os quadros só começam a baixar depois que a página carregou, a capa foi pintada e o navegador ficou ocioso:
+  // antes disso eles disputavam a rede e a CPU com a primeira pintura (Lighthouse simulava LCP de 4,4 s).
+  const ocioso = () => new Promise((r) => ("requestIdleCallback" in window ? requestIdleCallback(r, { timeout: 1500 }) : setTimeout(r, 300)));
+  const pintou = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const carregou = new Promise((r) => (document.readyState === "complete" ? r() : addEventListener("load", r, { once: true })))
+    .then(() => capa.decode?.().catch(() => {}))
+    .then(pintou)
+    .then(ocioso);
+
   const medir = () => { alturaSecao = secao.offsetHeight; alturaPalco = palco.offsetHeight; };
   medir();
   new ResizeObserver(medir).observe(secao);
@@ -52,6 +61,7 @@ export function iniciarAbertura(secao) {
       maxAbertos: c.maxAbertos,
       endereco: (i) => `${c.pasta}${String(i + 1).padStart(3, "0")}.webp`,
       aoDesenharPrimeiro: () => secao.classList.add("cena-pronta"),
+      comecarQuando: carregou,
     });
     window.__lsAbertura = seq; // para os testes medirem a memória
     if (!visivel) seq.desligar();
