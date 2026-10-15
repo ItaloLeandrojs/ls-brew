@@ -1,5 +1,5 @@
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body { margin: 0; background: var(--creme); color: var(--cafe); font: 400 17px/1.6 var(--texto); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 h1, h2, h3 { font-family: var(--titulo); font-weight: 600; line-height: 1.1; margin: 0 0 .4em; letter-spacing: -0.01em; }
 h2 { font-size: clamp(32px, 5vw, 56px); }

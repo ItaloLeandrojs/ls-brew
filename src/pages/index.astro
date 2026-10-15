@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Topo from "../secoes/Topo.astro";
 import Origem from "../secoes/Origem.astro";
+import Cardapio from "../secoes/Cardapio.jsx";
 import Visite from "../secoes/Visite.astro";
 import Rodape from "../secoes/Rodape.astro";
 import "../styles/secoes.css";
@@ -11,6 +12,13 @@ import "../styles/secoes.css";
   <Topo />
   <main id="conteudo">
     <Origem />
+    <section id="cardapio" class="secao" style="background: var(--creme)">
+      <div class="miolo">
+        <p class="rotulo">Cardápio</p>
+        <h2>Do coado ao pão de queijo</h2>
+        <Cardapio client:visible />
+      </div>
+    </section>
     <Visite />
   </main>
   <Rodape />
