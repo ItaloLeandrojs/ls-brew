@@ -62,7 +62,7 @@
 .ficha dd { margin: 0; font-weight: 500; }
 .relogio { position: relative; text-align: center; }
 .relogio svg { width: min(280px, 70vw); height: auto; display: block; margin: 0 auto; }
-.relogio circle { transition: stroke-dashoffset .25s linear; }
+/* Sem transição no anel: o cronômetro já redesenha a cada quadro, e uma transição reiniciada 60 vezes por segundo fazia o anel parar. */
 .tempo { font: 600 44px var(--titulo); margin: -170px 0 0; position: relative; }
 .etapa { color: var(--texto-2); margin: 120px auto 16px; max-width: 32ch; min-height: 3.2em; }
 .controles { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }

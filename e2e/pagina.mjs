@@ -38,7 +38,23 @@ try {
     await page.getByRole("button", { name: "Espresso", exact: true }).click();
     const iniciar = page.getByRole("button", { name: "Iniciar" });
     await iniciar.click(); await page.getByRole("button", { name: "Pausar" }).click(); await iniciar.click();
-    await page.waitForTimeout(2000);
+    // O anel precisa andar durante a contagem, não só quando pausa (o valor desenhado, não só o atributo).
+    // Mede no mesmo quadro o valor desenhado (estilo calculado) e o valor certo (atributo) várias vezes:
+    // com transição no anel, o desenhado fica atrasado em relação ao certo.
+    const atraso = () => page.locator(".relogio circle").nth(1).evaluate(async (c) => {
+      let pior = 0;
+      for (let i = 0; i < 30; i++) {
+        await new Promise((r) => requestAnimationFrame(r));
+        pior = Math.max(pior, Math.abs(parseFloat(getComputedStyle(c).strokeDashoffset) - parseFloat(c.getAttribute("stroke-dashoffset"))));
+      }
+      return pior;
+    });
+    const anel = () => page.locator(".relogio circle").nth(1).evaluate((c) => parseFloat(getComputedStyle(c).strokeDashoffset));
+    await page.waitForTimeout(400); const anel1 = await anel();
+    const piorAtraso = await atraso();
+    await page.waitForTimeout(800); const anel2 = await anel();
+    confere(anel1 - anel2 > 10 && piorAtraso < 0.5, `anel acompanha o tempo enquanto conta (${anel1.toFixed(1)} → ${anel2.toFixed(1)}, atraso máx. ${piorAtraso.toFixed(2)})`);
+    await page.waitForTimeout(300);
     const tempo = await page.locator("[data-tempo]").innerText();
     confere(tempo === "0:28" || tempo === "0:27", `cronômetro anda 1 s por segundo (${tempo})`);
     await page.getByRole("button", { name: "Zerar" }).click();
