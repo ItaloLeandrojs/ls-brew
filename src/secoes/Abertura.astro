@@ -2,6 +2,6 @@
 import AberturaCena from "./AberturaCena.jsx";
 import logo from "../assets/logo/ls-brew-fundo-escuro.svg?url";
 const base = import.meta.env.BASE_URL;
-const QUADROS = 120; // quadros do latte art (Pexels 6769791, 0 a 18 s); o celular usa um recorte vertical próprio
+// Vídeos em public/video: latte art do Pexels (6769791), trecho de 3,5 a 17,3 s; o celular tem um recorte aberto próprio.
 ---
-<AberturaCena client:load base={base} quadros={QUADROS} logo={logo} />
+<AberturaCena client:load base={base} logo={logo} />

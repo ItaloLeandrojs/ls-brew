@@ -1,18 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
-import ScrollSequence from "./ScrollSequence.jsx";
-import { faseDaAbertura, FRASES } from "../dominio/abertura.js";
+import { useCallback, useEffect, useRef, useState } from "react";
+import ScrollVideo from "./ScrollVideo.jsx";
+import { faseDaAbertura, saidaDaAbertura, FRASES } from "../dominio/abertura.js";
 
-export default function AberturaCena({ base, quadros, logo }) {
+export default function AberturaCena({ base, logo }) {
   const [fase, setFase] = useState(0);
   const [reduz, setReduz] = useState(false);
   const [montado, setMontado] = useState(false); // antes de montar (HTML do servidor, sem JS) nada fica escondido do leitor de tela
+  const saida = useRef(null);
   useEffect(() => { setReduz(matchMedia("(prefers-reduced-motion: reduce)").matches); setMontado(true); }, []);
-  // Função estável: ScrollSequence a tem nas dependências e não pode recriar a rolagem a cada fase.
-  const aoProgredir = useCallback((p) => setFase(faseDaAbertura(p)), []);
+  // Função estável: ScrollVideo a tem nas dependências e não pode recriar a rolagem a cada fase.
+  // A saída (esmaecer para o creme) muda a cada quadro no fim: vai direto no estilo, sem re-renderizar.
+  const aoProgredir = useCallback((p) => {
+    setFase(faseDaAbertura(p));
+    if (saida.current) saida.current.style.opacity = String(saidaDaAbertura(p));
+  }, []);
+  const v = `${base}video/`;
   return (
-    <ScrollSequence pasta={`${base}seq/v60`} pastaCelular={`${base}seq/v60-celular`} quadros={quadros}
-      poster={`${base}seq/v60/0001.webp`} posterCelular={`${base}seq/v60-celular/0001.webp`}
-      posterReduz={`${base}seq/v60/${String(quadros).padStart(4, "0")}.webp`} rolagem={3} topo={0} ajusteCelular="contain"
+    <ScrollVideo src={`${v}abertura.mp4`} srcCelular={`${v}abertura-celular.mp4`}
+      poster={`${v}abertura-inicio.webp`} posterCelular={`${v}abertura-celular-inicio.webp`}
+      posterReduz={`${v}abertura-fim.webp`} posterReduzCelular={`${v}abertura-celular-fim.webp`} rolagem={3}
       alt="Latte art sendo desenhada numa xícara de café" className="abertura" onProgresso={aoProgredir}>
       <div className="abertura-texto">
         {reduz ? (
@@ -25,6 +31,7 @@ export default function AberturaCena({ base, quadros, logo }) {
         )}
         <h1 className="sr">LS Brew · café especial da Serra de Baturité em Fortaleza</h1>
       </div>
-    </ScrollSequence>
+      {!reduz && <div ref={saida} className="abertura-saida" aria-hidden="true" />}
+    </ScrollVideo>
   );
 }

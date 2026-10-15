@@ -107,20 +107,26 @@ html:not(.js) .precisa-js { display: none; }
 .news-ok:empty { margin: 0; }
 .rodape :focus-visible, .plano.destaque :focus-visible { outline-color: var(--creme); }
 
-/* Fundo da sequência: o primeiro quadro, do computador ou do celular (mesmo corte de largura do componente: 768 px). */
-.seq { background-image: var(--seq-poster); }
+/* Vídeo controlado pela rolagem (ScrollVideo): a imagem de capa fica por baixo até o vídeo pintar o primeiro quadro.
+   Vídeo e capa ocupam a altura da tela; a folga de segurança embaixo fica só no escuro da seção. */
+.video-rolagem-fundo, .video-rolagem-midia { position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - var(--folga-tela, 0px)); display: block; }
+.video-rolagem-fundo { background: var(--seq-poster) center / cover no-repeat; }
+.video-rolagem-midia { object-fit: cover; opacity: 0; transition: opacity .35s var(--curva); }
+.video-rolagem-midia.pronto { opacity: 1; }
 @media (max-width: 768px) {
-  .seq { background-image: var(--seq-poster-celular, var(--seq-poster)); }
-  /* No celular a abertura mostra o quadro inteiro na largura (enquadramento aberto, bordas esfumadas no escuro). */
-  .abertura.seq { background-size: contain !important; }
+  /* No celular o vídeo aparece inteiro na largura (enquadramento aberto, bordas esfumadas no escuro). */
+  .video-rolagem-fundo { background-image: var(--seq-poster-celular, var(--seq-poster)); background-size: contain; }
+  .video-rolagem-midia { object-fit: contain; }
 }
-
+/* Saída: nos últimos 10% da rolagem a parte de baixo da cena esmaece para o creme (degradê). O logo e a xícara
+   continuam em cima enquanto a cena sobe, e embaixo ela já emenda no creme da seção seguinte, sem faixa vazia. */
+.abertura-saida { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, transparent 48%, var(--creme) 78%); opacity: 0; pointer-events: none; z-index: 2; }
 /* Abertura (única parte escura) */
 /* Folga de segurança: no Android a página também é desenhada atrás da barra de gestos, que nem o 100lvh cobre no começo.
    A cena fica 6rem mais alta que a tela; essa sobra nunca aparece, porque a cena fica presa no topo enquanto o vídeo roda. */
 .abertura { --folga-tela: 6rem; background-color: var(--escuro); color: var(--creme); }
 /* A cena tem a altura da tela grande (100lvh, sem a barra do celular); as frases centralizam na parte sempre visível (100svh). */
-.abertura-texto { display: grid; place-items: center; height: 100%; padding: 0 var(--margem) calc(100lvh - 100svh + var(--folga-tela, 0px)); text-align: center; background: radial-gradient(ellipse at center, rgba(26, 18, 13, .62) 0%, rgba(26, 18, 13, .38) 70%); }
+.abertura-texto { display: grid; place-items: center; height: 100%; padding: 0 var(--margem) calc(100lvh - 100svh + var(--folga-tela, 0px)); text-align: center; background: radial-gradient(ellipse at center, rgba(26, 18, 13, .5) 0%, rgba(26, 18, 13, .28) 70%); }
 .abertura-texto > * { grid-area: 1 / 1; }
 .frase { font: 600 clamp(40px, 8vw, 96px) var(--titulo); margin: 0; opacity: 0; transform: translateY(16px); transition: opacity .6s var(--curva), transform .6s var(--curva); text-shadow: 0 2px 24px rgba(0,0,0,.35); }
 .abertura-logo { width: min(520px, 80vw); filter: drop-shadow(0 2px 18px rgba(0,0,0,.45)); opacity: 0; transform: scale(.96); transition: opacity .7s var(--curva), transform .7s var(--curva); }

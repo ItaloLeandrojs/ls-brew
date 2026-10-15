@@ -27,10 +27,21 @@ try {
     const largura = await page.evaluate(() => [document.documentElement.scrollWidth, innerWidth]);
     confere(largura[0] <= largura[1], `sem rolagem lateral (${largura[0]} <= ${largura[1]})`);
 
-    // Abertura: rola até o fim da cena e vê o logo
+    // Abertura: o vídeo acompanha a rolagem (meio da rolagem ≈ meio do vídeo, que termina em 90%)
+    await page.waitForFunction(() => document.querySelector(".video-rolagem-midia")?.duration > 0, null, { timeout: 15000 }).catch(() => {});
+    await page.evaluate(() => scrollTo(0, innerHeight * 3 * 0.45));
+    await page.waitForTimeout(1200);
+    const video = await page.evaluate(() => { const v = document.querySelector(".video-rolagem-midia"); return { t: v.currentTime, d: v.duration, pronto: v.classList.contains("pronto") }; });
+    confere(video.pronto && Math.abs(video.t - video.d / 2) < 1.2, `vídeo acompanha a rolagem (${video.t.toFixed(1)} s de ${video.d.toFixed(1)}, esperado ~${(video.d / 2).toFixed(1)})`);
+
+    // Fim da cena: logo e saída em degradê para o creme
     await page.evaluate(() => scrollTo(0, innerHeight * 2.9));
     await page.waitForTimeout(800);
     confere(await page.locator(".abertura-logo.visivel").count() === 1, "logo aparece no fim da abertura");
+    await page.evaluate(() => scrollTo(0, innerHeight * 3.05));
+    await page.waitForTimeout(400);
+    const saida = await page.locator(".abertura-saida").evaluate((el) => +getComputedStyle(el).opacity);
+    confere(saida > 0.95, `cena esmaece para o creme no fim (opacidade ${saida.toFixed(2)})`);
 
     // Cardápio
     await page.locator("#cardapio").scrollIntoViewIfNeeded();
@@ -112,7 +123,7 @@ try {
   await page.goto(URL_BASE);
   await page.waitForTimeout(2500);
   confere(await page.locator("#entrada").count() === 0, "reduzir movimento: sem entrada");
-  confere(!pedidos.some((u) => u.includes("/seq/v60/0002.webp")), "reduzir movimento: não baixa a sequência de quadros");
+  confere(!pedidos.some((u) => u.includes(".mp4")), "reduzir movimento: não baixa o vídeo da abertura");
   await page.waitForFunction(() => document.querySelectorAll(".frase.visivel").length === 3, null, { timeout: 5000 }).catch(() => {});
   confere(await page.locator(".frase.visivel").count() === 3, "as três frases aparecem paradas");
   confere(await page.locator("#origem .lote").first().evaluate((el) => getComputedStyle(el).opacity) === "1", "conteúdo visível sem animação");

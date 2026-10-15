@@ -2,11 +2,13 @@
 # Gera o site e publica na branch gh-pages (GitHub Pages lê dela).
 set -euo pipefail
 cd "$(dirname "$0")/.."
-# Não publica enquanto os quadros da abertura forem de teste (fora do git).
-if [ ! -f public/seq/v60/manifest.json ] || [ -z "$(git ls-files public/seq/v60 | head -1)" ] || [ -z "$(git ls-files public/seq/v60-celular | head -1)" ]; then
-  echo "Quadros da abertura ainda são de teste ou não estão no git — publicação bloqueada."
-  exit 1
-fi
+# Não publica sem os vídeos da abertura no git (computador e celular).
+for f in public/video/abertura.mp4 public/video/abertura-celular.mp4; do
+  if [ -z "$(git ls-files "$f")" ]; then
+    echo "Vídeo da abertura fora do git ($f) — publicação bloqueada."
+    exit 1
+  fi
+done
 if [ ! -f public/og.jpg ]; then
   echo "Falta public/og.jpg (prévia de compartilhamento) — publicação bloqueada."
   exit 1

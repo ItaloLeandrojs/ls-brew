@@ -15,23 +15,23 @@ npm run build && npm run e2e   # testes de navegador, depois do build
 
 Tudo em `src/dados/` (cardápio, lotes, planos, preparo, quiz, contato). Endereço, bairro e horários ficam em `src/dados/contato.js`; o número de WhatsApp fica em `src/config.js`.
 
-## Abertura em vídeo (quadros)
+## Abertura em vídeo (controlado pela rolagem)
 
-A abertura usa uma sequência de quadros em `public/seq/`.
+A abertura é um vídeo que avança conforme a pessoa rola (`src/secoes/ScrollVideo.jsx`), em `public/video/`. Antes eram 120 imagens; o vídeo é mais leve e não estoura a memória do celular.
 
-- Vídeo: latte art de K no Pexels (https://www.pexels.com/video/making-latte-art-close-up-6769791/), trecho de 0 a 18 s, baixado em 2560 × 1440. O original fica fora do repositório, em `_midia/`.
-- Computador: 120 quadros de 1920 px em `public/seq/v60`.
-- Celular: 120 quadros de 1080 × 1440 em `public/seq/v60-celular`, um recorte mais aberto do meio do vídeo (pega a borda da xícara), com as bordas de cima e de baixo esfumando no escuro da seção. No celular o quadro encaixa inteiro na largura (`ajusteCelular="contain"`).
-- Para gerar de novo (precisa de ffmpeg e da skill ls-motion):
+- Vídeo: latte art de K no Pexels (https://www.pexels.com/video/making-latte-art-close-up-6769791/), trecho de **3,5 a 17,3 s** (o leite começa já caindo e termina quando o coração fecha), baixado em 2560 × 1440. O original fica fora do repositório, em `_midia/`.
+- Computador: `abertura.mp4`, 1920 × 1080, quadro-chave a cada 8 quadros (≈1,9 MB).
+- Celular: `abertura-celular.mp4`, 1080 × 1440, recorte aberto do meio com as bordas de cima e de baixo esfumando no escuro da seção, quadro-chave a cada 4 quadros (≈2,1 MB). No celular o vídeo aparece inteiro na largura.
+- Capas: `abertura-inicio.webp` e `abertura-celular-inicio.webp` (por baixo até o vídeo pintar) e `-fim.webp` (modo reduzir movimento).
+- Roteiro da rolagem (`src/dominio/abertura.js` e `rolagem-video.js`): frases em 0–25–50–72%, logo de 72% em diante, o vídeo termina em 90% e de 90% a 100% a parte de baixo esmaece para o creme da página.
+- Para gerar de novo (precisa de ffmpeg; o quadro-chave frequente é o que deixa a busca rápida):
 
   ```bash
-  ffmpeg -ss 0 -t 18 -i _midia/v15-latte.mp4 -an -c:v libx264 -crf 16 -pix_fmt yuv420p _midia/v15-trecho.mp4
-  ffmpeg -i _midia/v15-trecho.mp4 -vf "crop=1080:1440:740:0,format=gbrp,geq=r='26+(r(X,Y)-26)*min(1,min(Y,H-Y)/(0.22*H))':g='18+(g(X,Y)-18)*min(1,min(Y,H-Y)/(0.22*H))':b='13+(b(X,Y)-13)*min(1,min(Y,H-Y)/(0.22*H))',format=yuv420p" -an -c:v libx264 -crf 12 -colorspace bt709 -color_primaries bt709 -color_trc bt709 _midia/v15-celular-aberto.mp4
-  node ~/.claude/skills/ls-motion/scripts/extrair-quadros.mjs _midia/v15-trecho.mp4 public/seq/v60 --quadros 120 --largura 1920 --qualidade 72
-  node ~/.claude/skills/ls-motion/scripts/extrair-quadros.mjs _midia/v15-celular-aberto.mp4 public/seq/v60-celular --quadros 120 --largura 1080 --qualidade 70
+  X="colorprim=bt709:transfer=bt709:colormatrix=bt709"
+  ffmpeg -ss 3.5 -to 17.3 -i _midia/v15-latte.mp4 -an -vf "scale=1920:-2" -c:v libx264 -crf 27 -preset slow -g 8 -keyint_min 8 -sc_threshold 0 -pix_fmt yuv420p -x264-params $X -movflags +faststart public/video/abertura.mp4
+  ffmpeg -ss 3.5 -to 17.3 -i _midia/v15-latte.mp4 -an -vf "crop=1080:1440:740:0,format=gbrp,geq=r='26+(r(X,Y)-26)*min(1,min(Y,H-Y)/(0.22*H))':g='18+(g(X,Y)-18)*min(1,min(Y,H-Y)/(0.22*H))':b='13+(b(X,Y)-13)*min(1,min(Y,H-Y)/(0.22*H))',format=yuv420p" -c:v libx264 -crf 27 -preset slow -g 4 -keyint_min 4 -sc_threshold 0 -pix_fmt yuv420p -x264-params $X -movflags +faststart public/video/abertura-celular.mp4
+  for v in abertura abertura-celular; do ffmpeg -i public/video/$v.mp4 -frames:v 1 -quality 80 public/video/$v-inicio.webp; ffmpeg -sseof -0.1 -i public/video/$v.mp4 -frames:v 1 -update 1 -quality 80 public/video/$v-fim.webp; done
   ```
-
-- `bash scripts/quadros-teste.sh` gera quadros numerados só para testar; nunca publique com eles.
 
 ## Fotos
 
