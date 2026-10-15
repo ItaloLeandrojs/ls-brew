@@ -19,6 +19,7 @@ const PARES = [
   ["cafe", "creme"], ["cafe", "bege"], ["texto-2", "creme"], ["texto-2", "bege"],
   ["caramelo-texto", "creme"], ["cafe", "caramelo"], ["cafe", "caramelo-hover"],
   ["creme", "escuro"], ["caramelo", "escuro"], ["creme", "cafe"],
+  ["mapa-rotulo", "creme"], ["mapa-rotulo", "mapa-mar"], ["mapa-rotulo", "mapa-praca"], ["mapa-rotulo", "bege"],
   ["erro", "creme"], ["erro-escuro", "cafe"],
 ];
 

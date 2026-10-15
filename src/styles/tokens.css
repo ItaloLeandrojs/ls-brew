@@ -9,6 +9,9 @@
   --escuro: #1A120D;
   --erro: #A3341F;
   --erro-escuro: #F2B8A8; /* erro sobre o café do rodapé */
+  --mapa-mar: #D9C7AA;     /* mapa ilustrativo da seção Visite */
+  --mapa-praca: #D3CDAA;
+  --mapa-rotulo: #5A4637;  /* nomes das ruas: 5,4:1 no mar e na praça */
   --grao: #A8743E; /* grão do logo sobre o creme (3,5:1) */
   --titulo: "Fraunces Variable", Georgia, serif;
   --texto: "Outfit Variable", system-ui, sans-serif;

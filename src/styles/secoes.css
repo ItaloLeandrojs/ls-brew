@@ -29,7 +29,9 @@
 .visite dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 20px 0 28px; }
 .visite dt { color: var(--texto-2); }
 .visite dd { margin: 0; }
-.mapa-rua { width: 100%; height: auto; border-radius: var(--raio); background: var(--bege); }
+.mapa-rua { margin: 0; }
+.mapa-rua svg { width: 100%; height: auto; display: block; border-radius: var(--raio); }
+.mapa-rua figcaption { margin-top: 8px; font-size: 13px; color: var(--texto-2); }
 @media (max-width: 860px) { .visite-grade { grid-template-columns: 1fr; } }
 
 /* Rodapé */
