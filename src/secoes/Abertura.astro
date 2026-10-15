@@ -51,8 +51,9 @@ const { celular, computador } = conjuntos;
     background: radial-gradient(ellipse at center, rgba(26, 18, 13, .5) 0%, rgba(26, 18, 13, .28) 70%);
   }
   .cena-texto > * { grid-area: 1 / 1; }
-  .frase { font: 600 clamp(40px, 11vw, 96px)/1.05 var(--titulo); margin: 0; max-width: 12ch; text-shadow: 0 2px 24px rgba(0, 0, 0, .35); }
-  .cena-logo { width: min(520px, 78vw); height: auto; filter: drop-shadow(0 2px 18px rgba(0, 0, 0, .45)); }
+  /* min(largura, altura): no celular deitado a letra não pode crescer só pela largura. */
+  .frase { font: 600 clamp(34px, min(11vw, 10svh), 96px)/1.05 var(--titulo); margin: 0; max-width: 12ch; text-shadow: 0 2px 24px rgba(0, 0, 0, .35); }
+  .cena-logo { width: min(520px, 78vw, 70svh); height: auto; filter: drop-shadow(0 2px 18px rgba(0, 0, 0, .45)); }
   /* Troca de frase: só opacidade e transform (rodam fora da thread principal). */
   :global(.js) .cena [data-item] { opacity: 0; transform: translateY(16px); transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
   :global(.js) .cena[data-fase="0"] [data-item="0"], :global(.js) .cena[data-fase="1"] [data-item="1"],
