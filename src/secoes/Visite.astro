@@ -28,6 +28,8 @@ if (metades.length !== 2) throw new Error(`Visite: esperava 2 metades do grão n
             <path d="M-120 22 q30 -8 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="var(--creme)" stroke-width="2" opacity=".5" />
             <rect x="262" y="222" width="116" height="72" rx="6" fill="var(--mapa-praca)" />
             <g fill="#B9B18E"><circle cx="290" cy="244" r="9" /><circle cx="320" cy="262" r="10" /><circle cx="354" cy="240" r="8" /></g>
+            <!-- Lote da LS Brew: esquina norte da Rua da Torra com a Rua do Coado, de frente para a Rua da Torra -->
+            <rect x="264" y="160" width="44" height="38" rx="4" fill="var(--caramelo)" opacity=".55" />
             <g stroke="var(--creme)" fill="none" stroke-linecap="square">
               <path d="M-120 72 H600" stroke-width="22" />
               <path d="M-120 210 H600" stroke-width="16" />
@@ -45,8 +47,8 @@ if (metades.length !== 2) throw new Error(`Visite: esperava 2 metades do grão n
               <text x="276" y="286">Praça do Grão</text>
             </g>
           </g>
-          <!-- Pino da LS Brew: a ponta fica na esquina da Rua da Torra com a Rua do Coado (250,210 na malha, girada para 254,208) -->
-          <g transform="translate(254 194)">
+          <!-- Pino da LS Brew: a ponta fica no meio do lote (286,179 na malha, girada -11° em volta de 240,190 = 284,172), nunca na rua -->
+          <g transform="translate(284 172)">
             <path d="M0 -44 C 22 -44 30 -24 22 -10 C 14 4 0 14 0 14 C 0 14 -14 4 -22 -10 C -30 -24 -22 -44 0 -44 Z" fill="var(--cafe)" />
             <g transform="translate(0 -22) scale(0.2) translate(-132 -112)"><path d={metades[0]} fill="var(--caramelo)" /><path d={metades[1]} fill="var(--caramelo)" /></g>
             <rect x="30" y="-40" width="74" height="24" rx="12" fill="var(--cafe)" />
