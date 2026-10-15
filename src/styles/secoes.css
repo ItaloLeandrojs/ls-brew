@@ -51,3 +51,20 @@
 .item .preco { font-weight: 500; }
 @keyframes entra { from { opacity: 0; transform: translateY(8px); } }
 @media (max-width: 860px) { .itens { grid-template-columns: 1fr; } }
+
+/* Preparo */
+.preparo-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 8px; }
+.ficha { display: grid; grid-template-columns: auto 1fr; gap: 10px 24px; margin: 0; font-size: 18px; }
+.ficha dt { color: var(--texto-2); }
+.ficha dd { margin: 0; font-weight: 500; }
+.relogio { position: relative; text-align: center; }
+.relogio svg { width: min(280px, 70vw); height: auto; display: block; margin: 0 auto; }
+.relogio circle { transition: stroke-dashoffset .25s linear; }
+.tempo { font: 600 44px var(--titulo); margin: -170px 0 0; position: relative; }
+.etapa { color: var(--texto-2); margin: 120px auto 16px; max-width: 32ch; min-height: 3.2em; }
+.controles { display: flex; gap: 12px; justify-content: center; }
+.aba[aria-pressed="true"] { background: var(--cafe); color: var(--creme); }
+@media (max-width: 860px) { .preparo-grade { grid-template-columns: 1fr; } .tempo { margin-top: -150px; } .etapa { margin-top: 100px; } }
+
+/* Sem JavaScript, as partes interativas somem e fica só o aviso do <noscript>. */
+html:not(.js) .precisa-js { display: none; }
