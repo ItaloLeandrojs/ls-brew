@@ -18,7 +18,7 @@ import { LOTES } from "../dados/lotes.js";
     <div class="lotes">
       {LOTES.map((l) => (
         <article class="lote" data-revelar>
-          <p class="rotulo">{l.cidade} · {l.processo}</p>
+          <p class="rotulo">{l.sitio} · {l.cidade} · {l.processo}</p>
           <h3>{l.nome}</h3>
           <p class="alt"><span data-contar={l.altitude}>{l.altitude.toLocaleString("pt-BR")}</span> m</p>
           <p>{l.descricao}</p>

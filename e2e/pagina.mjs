@@ -55,10 +55,13 @@ try {
     confere(await page.getByRole("alert").filter({ hasText: "Escolha uma opção" }).isVisible(), "quiz exige resposta");
     for (const op of ["Cedo e cheia de energia", "Torta de limão", "Coado, puro, sem açúcar"]) {
       await page.getByRole("button", { name: op }).click(); await page.getByRole("button", { name: "Próxima" }).click();
+      if (op === "Cedo e cheia de energia")
+        confere(await page.evaluate(() => document.activeElement?.tagName) === "H3", "depois de Próxima, o foco vai para o título da nova pergunta");
     }
     await page.getByRole("button", { name: "Sítio na serra, rede e fogão a lenha" }).click();
     await page.getByRole("button", { name: "Ver resultado" }).click();
     confere(await page.locator("#quiz").getByRole("heading", { name: "Pedra Branca" }).isVisible(), "quiz b,b,b,a → Pedra Branca");
+    confere(await page.evaluate(() => document.activeElement?.tagName) === "H3", "depois de Ver resultado, o foco vai para o título do resultado");
 
     // WhatsApp
     const href = await page.getByRole("link", { name: "Pedir pelo WhatsApp" }).getAttribute("href");
@@ -72,6 +75,7 @@ try {
     confere(await page.getByRole("alert").filter({ hasText: "e-mail válido" }).isVisible(), "newsletter recusa e-mail inválido");
     await campo.fill(" Ana@Ex.com "); await page.getByRole("button", { name: "Assinar" }).click();
     confere(await page.getByText("Inscrito!").isVisible(), "newsletter aceita e agradece");
+    confere((await page.getByRole("status").innerText()).includes("Inscrito!"), "a região de status da newsletter anuncia 'Inscrito!'");
 
     confere(erros.length === 0, `sem erros no console ${erros.length ? JSON.stringify(erros) : ""}`);
     await page.screenshot({ path: `_shots/${nome}.png`, fullPage: true });
@@ -80,11 +84,33 @@ try {
 
   console.log("\nreduzir movimento");
   const { ctx, page } = await pagina(browser, { reducedMotion: "reduce" });
+  const pedidos = [];
+  page.on("request", (r) => pedidos.push(r.url()));
   await page.goto(URL_BASE);
+  await page.waitForTimeout(2500);
+  confere(await page.locator("#entrada").count() === 0, "reduzir movimento: sem entrada");
+  confere(!pedidos.some((u) => u.includes("/seq/v60/0002.webp")), "reduzir movimento: não baixa a sequência de quadros");
   await page.waitForFunction(() => document.querySelectorAll(".frase.visivel").length === 3, null, { timeout: 5000 }).catch(() => {});
   confere(await page.locator(".frase.visivel").count() === 3, "as três frases aparecem paradas");
   confere(await page.locator("#origem .lote").first().evaluate((el) => getComputedStyle(el).opacity) === "1", "conteúdo visível sem animação");
   await ctx.close();
+
+  console.log("\nsem JavaScript");
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
+    const page = await ctx.newPage();
+    await page.goto(URL_BASE);
+    confere(!(await page.locator("#entrada").isVisible()), "sem JS: a entrada não cobre a página");
+    for (const t of ["Cold brew", "Pão de queijo", "Espresso", "V60 Boa Sombra"])
+      confere(await page.locator("#cardapio").getByText(t, { exact: false }).first().isVisible(), `sem JS: cardápio mostra "${t}"`);
+    for (const t of ["1:15", "1:16", "1:2"])
+      confere(await page.locator("#preparo .preparo-fichas").getByText(t, { exact: true }).isVisible(), `sem JS: ficha de preparo com ${t}`);
+    for (const t of ["Grão escolhido", "Torra lenta", "Café na hora"]) {
+      const f = page.locator(".frase", { hasText: t });
+      confere(await f.isVisible() && await f.evaluate((el) => getComputedStyle(el).opacity) === "1", `sem JS: frase "${t}" legível`);
+    }
+    await ctx.close();
+  }
 } finally {
   await browser.close();
   parar();
