@@ -1,6 +1,6 @@
 ---
 import { LOTES } from "../dados/lotes.js";
-import { FOTO_ORIGEM } from "../dados/fotos.js";
+import { FOTO_ORIGEM, versao600 } from "../dados/fotos.js";
 const base = import.meta.env.BASE_URL;
 ---
 <section id="origem" class="secao">
@@ -18,7 +18,7 @@ const base = import.meta.env.BASE_URL;
           <circle cx="340" cy="50" r="9" fill="var(--cafe)"/><text x="230" y="36" font-size="16" fill="var(--cafe)">Fortaleza</text>
         </svg>
       </div>
-      <img class="foto-origem" data-revelar src={`${base}fotos/${FOTO_ORIGEM.arquivo}`} alt={FOTO_ORIGEM.alt} loading="lazy" decoding="async" width={FOTO_ORIGEM.largura} height={FOTO_ORIGEM.altura} />
+      <img class="foto-origem" data-revelar src={`${base}fotos/${FOTO_ORIGEM.arquivo}`} srcset={`${base}fotos/${versao600(FOTO_ORIGEM.arquivo)} 600w, ${base}fotos/${FOTO_ORIGEM.arquivo} 1200w`} sizes="(max-width: 860px) 100vw, 540px" alt={FOTO_ORIGEM.alt} loading="lazy" decoding="async" width={FOTO_ORIGEM.largura} height={FOTO_ORIGEM.altura} />
     </div>
     <div class="lotes">
       {LOTES.map((l) => (

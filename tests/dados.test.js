@@ -5,7 +5,7 @@ import { PLANOS } from "../src/dados/planos.js";
 import { METODOS } from "../src/dados/preparo.js";
 import { PERGUNTAS } from "../src/dados/quiz.js";
 import { CONTATO } from "../src/dados/contato.js";
-import { FOTOS, FOTO_ORIGEM } from "../src/dados/fotos.js";
+import { FOTOS, FOTO_ORIGEM, versao600 } from "../src/dados/fotos.js";
 import { existsSync } from "node:fs";
 
 const ids = (l) => l.map((x) => x.id);
@@ -48,6 +48,7 @@ describe("dados", () => {
       expect(f.largura).toBeGreaterThan(0);
       expect(f.altura).toBeGreaterThan(0);
       expect(existsSync(new URL(`../public/fotos/${f.arquivo}`, import.meta.url))).toBe(true);
+      expect(existsSync(new URL(`../public/fotos/${versao600(f.arquivo)}`, import.meta.url))).toBe(true);
     }
   });
 });

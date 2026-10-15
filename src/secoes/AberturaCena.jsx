@@ -16,11 +16,11 @@ export default function AberturaCena({ base, quadros, logo }) {
       alt="Latte art sendo desenhada numa xícara de café" className="abertura" onProgresso={aoProgredir}>
       <div className="abertura-texto">
         {reduz ? (
-          <>{FRASES.map((f) => <p key={f} className="frase visivel">{f}</p>)}<img className="abertura-logo visivel" src={logo} alt="LS Brew" /></>
+          <>{FRASES.map((f) => <p key={f} className="frase visivel">{f}</p>)}<img className="abertura-logo visivel" src={logo} alt="LS Brew" width="766" height="236" /></>
         ) : (
           <>
             {FRASES.map((f, i) => <p key={f} className={`frase ${fase === i ? "visivel" : ""}`} aria-hidden={montado && fase !== i}>{f}</p>)}
-            <img className={`abertura-logo ${fase === 3 ? "visivel" : ""}`} src={logo} alt="LS Brew" aria-hidden={montado && fase !== 3} />
+            <img className={`abertura-logo ${fase === 3 ? "visivel" : ""}`} src={logo} alt="LS Brew" width="766" height="236" aria-hidden={montado && fase !== 3} />
           </>
         )}
         <h1 className="sr">LS Brew · café especial da Serra de Baturité em Fortaleza</h1>

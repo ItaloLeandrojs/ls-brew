@@ -1,5 +1,5 @@
 ---
-import { FOTOS, FOTO_ORIGEM } from "../dados/fotos.js";
+import { FOTOS, FOTO_ORIGEM, versao600 } from "../dados/fotos.js";
 import { CONTATO } from "../dados/contato.js";
 const base = import.meta.env.BASE_URL;
 ---
@@ -9,7 +9,7 @@ const base = import.meta.env.BASE_URL;
     <h2>Um dia na LS Brew</h2>
     <ul class="galeria">
       {FOTOS.map((f) => (
-        <li data-revelar><img src={`${base}fotos/${f.arquivo}`} alt={f.alt} loading="lazy" decoding="async" width={f.largura} height={f.altura} /></li>
+        <li data-revelar><img src={`${base}fotos/${f.arquivo}`} srcset={`${base}fotos/${versao600(f.arquivo)} 600w, ${base}fotos/${f.arquivo} 1200w`} sizes="(max-width: 860px) 50vw, 400px" alt={f.alt} loading="lazy" decoding="async" width={f.largura} height={f.altura} /></li>
       ))}
     </ul>
     <p class="creditos">

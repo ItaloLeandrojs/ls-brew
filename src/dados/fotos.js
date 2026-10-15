@@ -1,5 +1,6 @@
 // Fotos do Pexels aprovadas pelo Italo em 15/10/2026 (lista em docs/fotos-escolhidas.md).
-// Arquivos em public/fotos, convertidos para WebP de 1200 px de largura.
+// Arquivos em public/fotos, em WebP de 1200 px e uma cópia de 600 px (nome-600.webp) para telas pequenas.
+export const versao600 = (arquivo) => arquivo.replace(/\.webp$/, "-600.webp");
 export const FOTOS = [
   { arquivo: "01.webp", largura: 1200, altura: 1800, alt: "Cappuccino com latte art em forma de folha na mão do barista, ao lado da máquina de espresso", autor: "Zehra K.", link: "https://www.pexels.com/photo/close-up-of-latte-art-in-a-coffee-shop-29621584/" },
   { arquivo: "02.webp", largura: 1200, altura: 1800, alt: "Água quente caindo de uma chaleira de bico fino sobre o filtro de um café coado", autor: "Esra Erdem", link: "https://www.pexels.com/photo/close-up-of-brewing-coffee-19723762/" },
