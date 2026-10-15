@@ -7,6 +7,14 @@ if [ ! -f public/seq/v60/manifest.json ] || [ -z "$(git ls-files public/seq/v60 
   echo "Quadros da abertura ainda são de teste ou não estão no git — publicação bloqueada."
   exit 1
 fi
+if [ ! -f public/og.jpg ]; then
+  echo "Falta public/og.jpg (prévia de compartilhamento) — publicação bloqueada."
+  exit 1
+fi
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  echo "Há mudanças não commitadas — publicação bloqueada."
+  exit 1
+fi
 npm test
 MSYS_NO_PATHCONV=1 BASE=/ls-brew/ npm run build
 grep -q 'canonical" href="https://italoleandrojs.github.io/ls-brew/' dist/index.html || { echo "Base errada no build"; exit 1; }
