@@ -1,6 +1,7 @@
 ---
 import "@fontsource-variable/fraunces";
 import "@fontsource-variable/outfit";
+import Entrada from "../ui/Entrada.astro";
 import "../styles/tokens.css";
 import "../styles/base.css";
 import { INDEXAR } from "../config.js";
@@ -34,6 +35,7 @@ const imagem = new URL(base + "og.jpg", Astro.site).href;
   <slot name="head" />
 </head>
 <body>
+  <Entrada />
   <slot />
 </body>
 </html>

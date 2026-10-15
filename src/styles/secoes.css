@@ -101,3 +101,12 @@ html:not(.js) .precisa-js { display: none; }
 .rodape .erro { color: var(--erro-escuro); }
 .news-ok { font-size: 18px; }
 .rodape :focus-visible, .plano.destaque :focus-visible { outline-color: var(--creme); }
+
+/* Abertura (única parte escura) */
+.abertura { background-color: var(--escuro); color: var(--creme); }
+.abertura-texto { display: grid; place-items: center; height: 100%; padding: 0 var(--margem); text-align: center; background: linear-gradient(transparent 55%, rgba(26, 18, 13, .55)); }
+.abertura-texto > * { grid-area: 1 / 1; }
+.frase { font: 600 clamp(40px, 8vw, 96px) var(--titulo); margin: 0; opacity: 0; transform: translateY(16px); transition: opacity .6s var(--curva), transform .6s var(--curva); text-shadow: 0 2px 24px rgba(0,0,0,.35); }
+.abertura-logo { width: min(520px, 80vw); opacity: 0; transform: scale(.96); transition: opacity .7s var(--curva), transform .7s var(--curva); }
+.frase.visivel, .abertura-logo.visivel { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .abertura-texto { grid-auto-flow: row; align-content: center; gap: 8px; } .abertura-texto > * { grid-area: auto; } }

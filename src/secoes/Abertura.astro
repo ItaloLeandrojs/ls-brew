@@ -1,0 +1,7 @@
+---
+import AberturaCena from "./AberturaCena.jsx";
+import logo from "../assets/logo/ls-brew-fundo-escuro.svg?url";
+const base = import.meta.env.BASE_URL;
+const QUADROS = 120; // número de quadros gerados (quadros de teste por enquanto)
+---
+<AberturaCena client:load base={base} quadros={QUADROS} logo={logo} />
