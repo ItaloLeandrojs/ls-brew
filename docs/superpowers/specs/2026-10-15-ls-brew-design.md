@@ -20,7 +20,7 @@ acessibilidade e pelo menos 85 de desempenho no celular.
 Fica em `Desktop\LINKEDIN\ls-brew-marca\` (ver o README de lá).
 
 - **Símbolo "Grão S":** o L é um canto em grafite (mesmo traço da Curva S da LS Dados). O S é
-  o sulco vazado de um grão de café, no azul LS `#2F62D6`.
+  o sulco vazado de um grão de café. Cores do site (alteração de 15/10, pedido do Italo): L e nome em café `#3B2A20` e grão `#A8743E` no fundo claro; L e nome em creme `#F6F0E7` e grão caramelo `#C08A4E` no fundo escuro. O azul LS saiu do logo.
 - **Nome:** "LS" em Outfit 640 e "Brew" em Outfit 400, nas mesmas medidas do "LS Dados".
 - **Arquivos:** versões clara, escura, grafite e branca; `favicon.svg`, que acompanha o tema
   do navegador; `apple-touch-icon-180.png`.
@@ -34,7 +34,7 @@ Fica em `Desktop\LINKEDIN\ls-brew-marca\` (ver o README de lá).
 | Destaque, botões | caramelo `#C08A4E` como fundo de botão, com texto `#3B2A20` (contraste 4,54:1; branco daria 3,01 e reprova) |
 | Texto em tom caramelo | `#8A5A3B` (5,14:1 no creme). O caramelo `#C08A4E` nunca vai como texto no creme (2,65:1) |
 | Cartões, divisórias | bege `#E8DBC8` |
-| Azul LS | só no logo e no favicon |
+| Azul LS | não é usado (o logo segue as cores do site) |
 | Títulos | Fraunces (Google Fonts, OFL) |
 | Textos | Outfit (OFL); preços com `tabular-nums` |
 | Tema | só claro; a abertura é a única parte escura (vídeo) |
@@ -46,10 +46,10 @@ de hover e de texto secundário seguem a mesma regra: toda combinação de texto
 ## 4. Roteiro da página (uma página só)
 
 1. **Abertura cinematográfica:**
-   - vídeo real de banco gratuito: café coado na V60, com o fio caindo na xícara;
+   - vídeo real de banco gratuito: latte art sendo desenhada na xícara (Pexels 6769791, de 0 a 18 s);
    - o vídeo vira uma sequência de quadros controlada pela rolagem, com uma versão vertical
      para o celular;
-   - três frases aparecem por cima: "Grão escolhido", "Torra lenta", "Café na hora";
+   - três frases aparecem por cima: "Espresso da serra", "Leite vaporizado", "Arte na xícara" (o vídeo escolhido em 15/10 é o latte art V15 do Pexels);
    - no fim, o logo LS Brew se assenta.
 2. **Origem dos grãos:**
    - café sombreado da Serra de Baturité (CE);

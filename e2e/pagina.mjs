@@ -105,7 +105,7 @@ try {
       confere(await page.locator("#cardapio").getByText(t, { exact: false }).first().isVisible(), `sem JS: cardápio mostra "${t}"`);
     for (const t of ["1:15", "1:16", "1:2"])
       confere(await page.locator("#preparo .preparo-fichas").getByText(t, { exact: true }).isVisible(), `sem JS: ficha de preparo com ${t}`);
-    for (const t of ["Grão escolhido", "Torra lenta", "Café na hora"]) {
+    for (const t of ["Espresso da serra", "Leite vaporizado", "Arte na xícara"]) {
       const f = page.locator(".frase", { hasText: t });
       confere(await f.isVisible() && await f.evaluate((el) => getComputedStyle(el).opacity) === "1", `sem JS: frase "${t}" legível`);
     }

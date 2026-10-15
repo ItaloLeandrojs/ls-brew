@@ -6,4 +6,4 @@ export function faseDaAbertura(progresso) {
   if (p < 0.85) return 2;
   return 3;
 }
-export const FRASES = ["Grão escolhido", "Torra lenta", "Café na hora"];
+export const FRASES = ["Espresso da serra", "Leite vaporizado", "Arte na xícara"];

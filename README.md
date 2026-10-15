@@ -19,9 +19,19 @@ Tudo em `src/dados/` (cardápio, lotes, planos, preparo, quiz, contato). Endere�
 
 A abertura usa uma sequência de quadros em `public/seq/`.
 
-- Hoje ela usa **quadros de teste** (`bash scripts/quadros-teste.sh`). Por isso `public/seq/` está no `.gitignore` **somente enquanto houver quadros de teste**.
-- O vídeo real do Pexels ainda será escolhido pelo Italo: veja os candidatos em `docs/candidatos-midia.md`.
-- Depois da escolha, gere os quadros reais (plano da Task 11, Step 4), **remova a linha `public/seq/` do `.gitignore`** e faça commit dos quadros. Vídeos originais ficam fora do repositório, em `_midia/`.
+- Vídeo: latte art de K no Pexels (https://www.pexels.com/video/making-latte-art-close-up-6769791/), trecho de 0 a 18 s, baixado em 2560 × 1440. O original fica fora do repositório, em `_midia/`.
+- Computador: 120 quadros de 1920 px em `public/seq/v60`.
+- Celular: 120 quadros de 810 × 1440 em `public/seq/v60-celular`, recortados do meio do vídeo (não é o quadro do computador encolhido), para ficar nítido na tela vertical.
+- Para gerar de novo (precisa de ffmpeg e da skill ls-motion):
+
+  ```bash
+  ffmpeg -ss 0 -t 18 -i _midia/v15-latte.mp4 -an -c:v libx264 -crf 16 -pix_fmt yuv420p _midia/v15-trecho.mp4
+  ffmpeg -i _midia/v15-trecho.mp4 -vf "crop=810:1440:875:0" -an -c:v libx264 -crf 14 -pix_fmt yuv420p _midia/v15-trecho-vertical.mp4
+  node ~/.claude/skills/ls-motion/scripts/extrair-quadros.mjs _midia/v15-trecho.mp4 public/seq/v60 --quadros 120 --largura 1920 --qualidade 72
+  node ~/.claude/skills/ls-motion/scripts/extrair-quadros.mjs _midia/v15-trecho-vertical.mp4 public/seq/v60-celular --quadros 120 --largura 810 --qualidade 70
+  ```
+
+- `bash scripts/quadros-teste.sh` gera quadros numerados só para testar; nunca publique com eles.
 
 ## Pendências
 
