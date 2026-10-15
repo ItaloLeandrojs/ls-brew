@@ -13,7 +13,7 @@ npm run build && npm run e2e   # testes de navegador, depois do build
 
 ## Onde mexer no conteúdo
 
-Tudo em `src/dados/` (cardápio, lotes, planos, preparo, quiz, contato). Endereço e telefone ficam em `src/dados/contato.js`.
+Tudo em `src/dados/` (cardápio, lotes, planos, preparo, quiz, contato). Endereço, bairro e horários ficam em `src/dados/contato.js`; o número de WhatsApp fica em `src/config.js`.
 
 ## Abertura em vídeo (quadros)
 

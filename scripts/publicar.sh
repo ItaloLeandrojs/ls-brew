@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 # Não publica enquanto os quadros da abertura forem de teste (fora do git).
-if [ ! -f public/seq/v60/manifest.json ] || [ -z "$(git ls-files public/seq/v60 | head -1)" ]; then
+if [ ! -f public/seq/v60/manifest.json ] || [ -z "$(git ls-files public/seq/v60 | head -1)" ] || [ -z "$(git ls-files public/seq/v60-celular | head -1)" ]; then
   echo "Quadros da abertura ainda são de teste ou não estão no git — publicação bloqueada."
   exit 1
 fi
