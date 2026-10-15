@@ -1,10 +1,21 @@
 ---
 import Base from "../layouts/Base.astro";
-import Logo from "../ui/Logo.astro";
+import Topo from "../secoes/Topo.astro";
+import Origem from "../secoes/Origem.astro";
+import Visite from "../secoes/Visite.astro";
+import Rodape from "../secoes/Rodape.astro";
+import "../styles/secoes.css";
 ---
 <Base>
+  <script is:inline>document.documentElement.classList.add("js");</script>
+  <Topo />
   <main id="conteudo">
-    <section class="secao"><div class="miolo"><Logo classe="logo-teste" /><h1>LS Brew</h1></div></section>
+    <Origem />
+    <Visite />
   </main>
+  <Rodape />
+  <script>
+    import { iniciarRevelar } from "../ui/revelar.js";
+    iniciarRevelar();
+  </script>
 </Base>
-<style>.logo-teste { height: 64px; }</style>

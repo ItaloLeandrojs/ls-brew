@@ -1,0 +1,15 @@
+---
+import Logo from "../ui/Logo.astro";
+import { CONTATO } from "../dados/contato.js";
+---
+<footer class="rodape">
+  <div class="miolo rodape-grade">
+    <div>
+      <Logo variante="escuro" />
+      <p style="margin-top:16px">Café especial de sombra, torra lenta e preparo na hora.</p>
+      <p>{CONTATO.instagram}</p>
+    </div>
+    <div id="newsletter-vaga"><slot /></div>
+  </div>
+  <small class="miolo">Projeto de portfólio LS · cafeteria, endereço e telefone fictícios. Fotos e vídeo: Pexels. Letras Fraunces e Outfit (SIL OFL).</small>
+</footer>

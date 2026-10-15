@@ -1,0 +1,39 @@
+/* Revelar ao rolar: o conteúdo já nasce visível sem JS (classe .js no <html> liga o efeito). */
+.js [data-revelar] { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--curva), transform .7s var(--curva); }
+.js [data-revelar].visivel { opacity: 1; transform: none; }
+.js [data-desenhar] path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.8s var(--curva); }
+.js [data-desenhar].visivel path { stroke-dashoffset: 0; }
+
+/* Topo */
+.topo { position: fixed; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px var(--margem); background: color-mix(in srgb, var(--creme) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--bege); }
+.topo .logo { height: 34px; }
+.topo nav { display: flex; gap: 22px; font-size: 15px; }
+.topo nav a { text-decoration: none; color: var(--texto-2); }
+.topo nav a:hover { color: var(--cafe); }
+.topo .botao { padding: 9px 16px; font-size: 15px; }
+@media (max-width: 860px) { .topo nav { display: none; } }
+
+/* Origem */
+.origem-grade { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+.mapa { width: 100%; height: auto; color: var(--caramelo-texto); }
+.lotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+.lote { background: var(--bege); border-radius: var(--raio); padding: 22px; }
+.lote .rotulo { color: var(--texto-2); } /* caramelo-texto não passa no AA sobre o bege */
+.lote .alt { font: 600 34px var(--titulo); font-variant-numeric: tabular-nums; }
+.lote .notas { color: var(--texto-2); font-size: 15px; }
+@media (max-width: 860px) { .origem-grade, .lotes { grid-template-columns: 1fr; } }
+
+/* Visite */
+.visite-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.visite dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 20px 0 28px; }
+.visite dt { color: var(--texto-2); }
+.visite dd { margin: 0; }
+.mapa-rua { width: 100%; height: auto; border-radius: var(--raio); background: var(--bege); }
+@media (max-width: 860px) { .visite-grade { grid-template-columns: 1fr; } }
+
+/* Rodapé */
+.rodape { background: var(--cafe); color: var(--creme); padding: 64px var(--margem) 32px; }
+.rodape .logo { height: 40px; }
+.rodape-grade { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; }
+.rodape small { display: block; margin-top: 40px; opacity: .85; font-size: 13px; }
+@media (max-width: 860px) { .rodape-grade { grid-template-columns: 1fr; } }

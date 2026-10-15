@@ -1,0 +1,21 @@
+---
+import { CONTATO } from "../dados/contato.js";
+import { WHATSAPP } from "../config.js";
+import { linkWhatsApp } from "../dominio/whatsapp.js";
+---
+<section id="visite" class="secao visite">
+  <div class="miolo visite-grade">
+    <div data-revelar>
+      <p class="rotulo">Visite a gente</p>
+      <h2>Passa aqui pra um café</h2>
+      <p class="sub">{CONTATO.endereco} · {CONTATO.bairro} · {CONTATO.cidade}</p>
+      <dl>{CONTATO.horarios.map((h) => (<><dt>{h.dias}</dt><dd>{h.horas}</dd></>))}</dl>
+      <a class="botao" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir pelo WhatsApp</a>
+    </div>
+    <svg class="mapa-rua" viewBox="0 0 480 320" role="img" aria-label={`Mapa ilustrativo: ${CONTATO.endereco}, ${CONTATO.bairro}`}>
+      <g stroke="#F6F0E7" stroke-width="14" fill="none"><path d="M0 110 H480"/><path d="M0 230 H480"/><path d="M150 0 V320"/><path d="M330 0 V320"/></g>
+      <text x="20" y="100" font-size="13" fill="#6E5646">Rua da Torra</text>
+      <circle cx="240" cy="110" r="14" fill="#C08A4E"/><circle cx="240" cy="110" r="5" fill="#3B2A20"/>
+    </svg>
+  </div>
+</section>

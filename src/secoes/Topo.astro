@@ -1,0 +1,12 @@
+---
+import Logo from "../ui/Logo.astro";
+import { WHATSAPP } from "../config.js";
+import { CONTATO } from "../dados/contato.js";
+import { linkWhatsApp } from "../dominio/whatsapp.js";
+const links = [["#origem", "Origem"], ["#cardapio", "Cardápio"], ["#preparo", "Preparo"], ["#quiz", "Quiz"], ["#clube", "Clube"], ["#visite", "Visite"]];
+---
+<header class="topo">
+  <a href="#conteudo" aria-label="LS Brew, início"><Logo /></a>
+  <nav aria-label="Seções">{links.map(([h, t]) => <a href={h}>{t}</a>)}</nav>
+  <a class="botao" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir</a>
+</header>
