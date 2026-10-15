@@ -1,0 +1,17 @@
+:root {
+  --creme: #F6F0E7;
+  --cafe: #3B2A20;
+  --caramelo: #C08A4E;
+  --caramelo-hover: #D4A26A;
+  --caramelo-texto: #8A5A3B; /* só sobre o creme */
+  --bege: #E8DBC8;
+  --texto-2: #6E5646;
+  --escuro: #1A120D;
+  --azul-ls: #2F62D6;
+  --titulo: "Fraunces Variable", Georgia, serif;
+  --texto: "Outfit Variable", system-ui, sans-serif;
+  --raio: 14px;
+  --largura: 1180px;
+  --margem: clamp(16px, 4vw, 40px);
+  --curva: cubic-bezier(0.22, 1, 0.36, 1);
+}
