@@ -22,7 +22,9 @@ const metades = [...simbolo.matchAll(/<path d="(M[^"]+Z)" fill="#2F62D6"\/>/g)].
   iniciarEntrada();
 </script>
 <style is:global>
-  #entrada { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--creme); transition: opacity .5s var(--curva); }
+  #entrada { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--creme); transition: opacity .5s var(--curva); animation: entrada-some .4s 8s forwards; }
+  /* Rede de segurança só com CSS: se o script falhar, a entrada some sozinha. */
+  @keyframes entrada-some { to { opacity: 0; visibility: hidden; pointer-events: none; } }
   #entrada svg { width: 120px; height: 120px; }
   #entrada .m0 { animation: m0 1.1s var(--curva) both; }
   #entrada .m1 { animation: m1 1.1s var(--curva) both; }

@@ -10,7 +10,8 @@ export async function iniciarEntrada() {
   if (!deveMostrarEntrada({ visto, automatizado: !!navigator.webdriver, forcar })) { el.remove(); dispatchEvent(new Event("ls-brew:entrada-fim")); return; }
   try { sessionStorage.setItem("ls-brew:entrada", "1"); } catch {}
   const minimo = matchMedia("(prefers-reduced-motion: reduce)").matches ? 400 : 1200;
-  await Promise.race([Promise.all([document.fonts?.ready, new Promise((r) => setTimeout(r, minimo))]), new Promise((r) => setTimeout(r, 6000))]);
+  // Falha ao esperar (ex.: fontes) não pode prender a entrada na tela.
+  try { await Promise.race([Promise.all([document.fonts?.ready, new Promise((r) => setTimeout(r, minimo))]), new Promise((r) => setTimeout(r, 6000))]); } catch {}
   el.classList.add("saindo");
   dispatchEvent(new Event("ls-brew:entrada-fim"));
   setTimeout(() => el.remove(), 520);
