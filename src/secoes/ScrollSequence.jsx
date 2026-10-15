@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+// No celular, a barra de endereço some e volta ao rolar: isso não deve recalcular a cena no meio da rolagem.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 /**
  * Sequência de imagens guiada pela rolagem (o "efeito café").
@@ -125,7 +127,7 @@ export default function ScrollSequence({
     <section
       ref={secao}
       className={`seq ${className}`.trim()}
-      style={{ position: 'relative', height: topo ? `calc(100dvh - ${topo}px)` : '100dvh', overflow: 'hidden', ...(poster ? { '--seq-poster': `url(${poster})`, '--seq-poster-celular': `url(${posterCelular || poster})`, backgroundPosition: 'center', backgroundSize: tamPoster, backgroundRepeat: 'no-repeat' } : {}) }}
+      style={{ position: 'relative', height: topo ? `calc(100svh - ${topo}px)` : '100svh', overflow: 'hidden', ...(poster ? { '--seq-poster': `url(${poster})`, '--seq-poster-celular': `url(${posterCelular || poster})`, backgroundPosition: 'center', backgroundSize: tamPoster, backgroundRepeat: 'no-repeat' } : {}) }}
     >
       {reduz ? (
         imgReduz && <img src={imgReduz} alt={alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: aj, display: 'block', ...(larguraMax ? { maxWidth: larguraMax, margin: '0 auto' } : {}) }} />

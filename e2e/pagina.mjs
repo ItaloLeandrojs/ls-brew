@@ -16,6 +16,13 @@ try {
     for (const id of ["origem", "cardapio", "preparo", "quiz", "clube", "galeria", "visite"])
       confere(await page.locator(`#${id}`).count() === 1, `seção #${id}`);
 
+    // Galeria sem buraco: a última foto termina na borda direita da grade.
+    const buraco = await page.evaluate(() => {
+      const g = document.querySelector(".galeria"); const ul = g.lastElementChild;
+      return Math.abs(g.getBoundingClientRect().right - ul.getBoundingClientRect().right);
+    });
+    confere(buraco < 2, `galeria sem buraco na última linha (sobra ${buraco.toFixed(0)} px)`);
+
     // Nada estoura a largura
     const largura = await page.evaluate(() => [document.documentElement.scrollWidth, innerWidth]);
     confere(largura[0] <= largura[1], `sem rolagem lateral (${largura[0]} <= ${largura[1]})`);

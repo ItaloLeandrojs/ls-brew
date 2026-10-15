@@ -129,4 +129,8 @@ html:not(.js) .abertura-texto > * { grid-area: auto; }
 .galeria img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--curva); }
 @media (hover: hover) { .galeria li:hover img { transform: scale(1.05); } }
 .creditos { font-size: 13px; color: var(--texto-2); }
-@media (max-width: 860px) { .galeria { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 860px) {
+  .galeria { grid-template-columns: repeat(2, 1fr); }
+  /* 9 fotos em 2 colunas deixariam um buraco: a 5ª (grãos, horizontal) ocupa a linha inteira. */
+  .galeria li:nth-child(5) { grid-column: 1 / -1; aspect-ratio: 2 / 1; }
+}
