@@ -24,18 +24,20 @@ export default function Cardapio() {
           </button>
         ))}
       </div>
-      <ul key={cat.id} role="tabpanel" id={`painel-${cat.id}`} aria-labelledby={`aba-${cat.id}`} className="itens">
-        {cat.itens.map((it) => (
-          <li key={it.nome} className="item">
-            <div>
-              <h3>{it.nome}</h3>
-              <p className="desc">{it.descricao}</p>
-              {it.notas && <p className="notas">{it.notas.join(" · ")}</p>}
-            </div>
-            <span className="preco">{formatarPreco(it.preco)}</span>
-          </li>
-        ))}
-      </ul>
+      <div key={cat.id} role="tabpanel" id={`painel-${cat.id}`} aria-labelledby={`aba-${cat.id}`} className="painel">
+        <ul className="itens">
+          {cat.itens.map((it) => (
+            <li key={it.nome} className="item">
+              <div>
+                <h3>{it.nome}</h3>
+                <p className="desc">{it.descricao}</p>
+                {it.notas && <p className="notas">{it.notas.join(" · ")}</p>}
+              </div>
+              <span className="preco">{formatarPreco(it.preco)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
