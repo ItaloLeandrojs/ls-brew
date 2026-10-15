@@ -54,7 +54,7 @@ export default function Preparo() {
         </dl>
         <div className="relogio">
           <svg viewBox="0 0 120 120" aria-hidden="true">
-            <circle cx="60" cy="60" r={R} fill="none" stroke="var(--bege)" strokeWidth="8" />
+            <circle cx="60" cy="60" r={R} fill="none" stroke="var(--creme)" strokeWidth="8" />
             <circle cx="60" cy="60" r={R} fill="none" stroke="var(--caramelo)" strokeWidth="8" strokeLinecap="round"
               strokeDasharray={C} strokeDashoffset={C * (1 - st.progresso)} transform="rotate(-90 60 60)" />
           </svg>
