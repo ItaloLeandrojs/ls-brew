@@ -127,7 +127,7 @@ export default function ScrollSequence({
     <section
       ref={secao}
       className={`seq ${className}`.trim()}
-      style={{ position: 'relative', height: topo ? `calc(100lvh - ${topo}px)` : '100lvh', overflow: 'hidden', ...(poster ? { '--seq-poster': `url(${poster})`, '--seq-poster-celular': `url(${posterCelular || poster})`, backgroundPosition: 'center', backgroundSize: tamPoster, backgroundRepeat: 'no-repeat' } : {}) }}
+      style={{ position: 'relative', height: topo ? `calc(100lvh + var(--folga-tela, 0px) - ${topo}px)` : 'calc(100lvh + var(--folga-tela, 0px))', overflow: 'hidden', ...(poster ? { '--seq-poster': `url(${poster})`, '--seq-poster-celular': `url(${posterCelular || poster})`, backgroundPosition: 'center', backgroundSize: tamPoster, backgroundRepeat: 'no-repeat' } : {}) }}
     >
       {reduz ? (
         imgReduz && <img src={imgReduz} alt={alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: aj, display: 'block', ...(larguraMax ? { maxWidth: larguraMax, margin: '0 auto' } : {}) }} />
