@@ -2,7 +2,36 @@
 
 Nada daqui foi baixado. Marque os escolhidos e eu sigo.
 
-## Vídeo da abertura
+## Vídeos novos para a rolagem (busca de 15/10, direto no Pexels)
+
+Conferidos no próprio Pexels (resolução, duração e autor). Os números batem com a folha de miniaturas que foi mostrada no chat. Bons para rolagem: uma ação contínua, câmera parada ou quase parada.
+
+**Melhores para a abertura**
+- **V01 · Grãos caindo e formando um monte no escuro.** https://www.pexels.com/video/coffee-beans-falling-in-dark-ambience-32896425/ · Evgenij Mikhailov · 3840x2160 · 20 s · 60 fps. Fundo preto igual à seção escura da abertura; "Grão escolhido".
+- **V15 · Latte art sendo desenhada na xícara.** https://www.pexels.com/video/making-latte-art-close-up-6769791/ · K · 3840x2160 · 45 s (cortar uns 8 s). A xícara enche e o desenho aparece; "Café na hora".
+- **V10 · Xícara girando sobre fundo preto.** https://www.pexels.com/video/a-cup-of-coffee-on-a-black-background-9534789/ · max laurell · 3840x2160 · 21 s. Elegante e escuro; bom para o logo assentar no fim.
+- **V12 · Espresso caindo numa xícara clara.** https://www.pexels.com/video/close-up-of-espresso-brewing-into-elegant-cup-31264406/ · İsa Kılavuzoğlu · 2160x3840 (vertical) · 12 s. Ótimo para o celular.
+
+**Torra e grãos (história "da serra à xícara")**
+- **V02 · Grãos caindo em câmera lenta.** https://www.pexels.com/video/close-up-view-of-coffee-beans-falling-in-slow-motion-16246463/ · Joshua Woroniecki · 4096x2160 · 19 s.
+- **V03 · Grãos torrados caindo em câmera lenta.** https://www.pexels.com/video/slow-motion-roasted-coffee-beans-falling-30143569/ · Not My Real Name · 1920x1080 · 30 s.
+- **V04 · Grãos recém-torrados girando, fundo escuro.** https://www.pexels.com/video/freshly-roasted-coffee-beans-in-rotation-38604297/ · Alex Shmakov · 2160x3840 (vertical) · 7 s.
+- **V05 · Torrador com grãos girando no tambor.** https://www.pexels.com/video/slow-motion-coffee-bean-roasting-process-32941224/ · Luis Vargas · 2160x3840 (vertical) · 9 s.
+- **V06 · Grãos girando no torrador, com a pá de amostra.** https://www.pexels.com/video/close-up-of-roasting-coffee-beans-in-motion-36212744/ · umpactodesign S. · 2160x3840 (vertical) · 13 s.
+
+**Preparo**
+- **V07 · V60 numa banca (fundo movimentado).** https://www.pexels.com/video/brewing-coffee-with-pour-over-v60-technique-39543372/ · Tolga deniz Aran · 3840x2160 · 9 s. É V60 de verdade, mas o fundo é poluído.
+- **V08 · Coado em close artístico.** https://www.pexels.com/video/artistic-pour-over-coffee-brewing-close-up-33838546/ · Andrea Paccini · 2160x3840 (vertical) · 14 s. A miniatura é clara demais; conferir.
+- **V09 · Espresso numa xícara vermelha.** https://www.pexels.com/video/brewed-coffee-dripping-in-a-red-ceramic-cup-13737104/ · Mizuno K · 2160x3840 (vertical) · 10 s.
+- **V11 · Espresso pingando lento.** https://www.pexels.com/video/slow-drip-of-espresso-from-machine-into-glass-35745119/ · Swarup Sarkar · 2160x3840 (vertical) · 15 s.
+- **V13 · Espresso saindo do porta-filtro.** https://www.pexels.com/video/close-up-of-espresso-pouring-from-portafilter-36285235/ · Will Liu · 1920x1080 · 31 s. Mostra a marca da máquina (DeLonghi): evitar.
+- **V14 · Latte art.** https://www.pexels.com/video/close-up-coffee-art-pouring-process-28889095/ · Ammad Rasool · 2160x3840 (vertical) · 16 s.
+
+**Origem**
+- **V16 · Cerejas de café maduras no pé.** https://www.pexels.com/video/close-up-of-ripe-coffee-cherries-on-tree-branch-35034237/ · Diego Castro Calderon · 3840x2160 · 5 s. Curto, mas lindo para a seção Origem.
+- **V17 · Cerejas colhidas no caixote.** https://www.pexels.com/video/freshly-harvested-coffee-cherries-in-basket-35784268/ · Christian Bolaños · 2160x3840 (vertical) · 7 s.
+
+## Vídeo da abertura (primeira busca)
 
 Aviso: não achei no Pexels um V60 em 16:9 4K com o fio caindo na jarra/xícara, de câmera parada e fundo escuro. Os 3 abaixo são os mais próximos; o 1 e o 2 mostram a água sobre o pó (não o café enchendo a xícara). Se nenhum servir, a alternativa é gerar a cena com IA.
 
