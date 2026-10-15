@@ -1,0 +1,24 @@
+---
+import { PLANOS } from "../dados/planos.js";
+import { WHATSAPP } from "../config.js";
+import { formatarPreco } from "../dominio/preco.js";
+import { linkWhatsApp } from "../dominio/whatsapp.js";
+---
+<section id="clube" class="secao">
+  <div class="miolo">
+    <p class="rotulo">Clube LS Brew</p>
+    <h2>Café fresco em casa, todo mês</h2>
+    <p class="sub">Torramos na semana da entrega. Cancele quando quiser.</p>
+    <div class="planos">
+      {PLANOS.map((p) => (
+        <article class={`plano ${p.destaque ? "destaque" : ""}`} data-revelar>
+          {p.destaque && <p class="selo">Mais pedido</p>}
+          <h3>{p.nome}</h3>
+          <p class="valor"><span class="preco">{formatarPreco(p.preco)}</span> <small>{p.frequencia}</small></p>
+          <ul>{p.itens.map((i) => <li>{i}</li>)}</ul>
+          <a class="botao" href={linkWhatsApp(WHATSAPP, `Olá! Quero o plano ${p.nome} do Clube LS Brew.`)} target="_blank" rel="noopener">Quero este</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

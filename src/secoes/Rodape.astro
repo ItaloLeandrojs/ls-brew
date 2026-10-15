@@ -9,7 +9,10 @@ import { CONTATO } from "../dados/contato.js";
       <p style="margin-top:16px">Café especial de sombra, torra lenta e preparo na hora.</p>
       <p>{CONTATO.instagram}</p>
     </div>
-    <div id="newsletter-vaga"><slot /></div>
+    <div>
+      <h3 style="color: var(--creme)">Lotes novos no seu e-mail</h3>
+      <slot />
+    </div>
   </div>
   <small class="miolo">Projeto de portfólio LS · cafeteria, endereço e telefone fictícios. Fotos e vídeo: Pexels. Letras Fraunces e Outfit (SIL OFL).</small>
 </footer>

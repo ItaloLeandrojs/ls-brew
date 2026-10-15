@@ -4,6 +4,9 @@ import Topo from "../secoes/Topo.astro";
 import Origem from "../secoes/Origem.astro";
 import Cardapio from "../secoes/Cardapio.jsx";
 import Preparo from "../secoes/Preparo.jsx";
+import Quiz from "../secoes/Quiz.jsx";
+import Clube from "../secoes/Clube.astro";
+import Newsletter from "../secoes/Newsletter.jsx";
 import Visite from "../secoes/Visite.astro";
 import Rodape from "../secoes/Rodape.astro";
 import "../styles/secoes.css";
@@ -28,9 +31,18 @@ import "../styles/secoes.css";
         <noscript><p class="sub">O cronômetro precisa de JavaScript ligado. As receitas estão no cardápio acima.</p></noscript>
       </div>
     </section>
+    <section id="quiz" class="secao">
+      <div class="miolo">
+        <p class="rotulo">Quiz</p>
+        <h2>Qual café combina com você?</h2>
+        <div class="precisa-js"><Quiz client:visible /></div>
+        <noscript><p class="sub">O quiz precisa de JavaScript ligado.</p></noscript>
+      </div>
+    </section>
+    <Clube />
     <Visite />
   </main>
-  <Rodape />
+  <Rodape><div class="precisa-js"><Newsletter client:visible /></div></Rodape>
   <script>
     import { iniciarRevelar } from "../ui/revelar.js";
     iniciarRevelar();
