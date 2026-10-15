@@ -109,7 +109,11 @@ html:not(.js) .precisa-js { display: none; }
 
 /* Fundo da sequência: o primeiro quadro, do computador ou do celular (mesmo corte de largura do componente: 768 px). */
 .seq { background-image: var(--seq-poster); }
-@media (max-width: 768px) { .seq { background-image: var(--seq-poster-celular, var(--seq-poster)); } }
+@media (max-width: 768px) {
+  .seq { background-image: var(--seq-poster-celular, var(--seq-poster)); }
+  /* No celular a abertura mostra o quadro inteiro na largura (enquadramento aberto, bordas esfumadas no escuro). */
+  .abertura.seq { background-size: contain !important; }
+}
 
 /* Abertura (única parte escura) */
 /* Folga de segurança: no Android a página também é desenhada atrás da barra de gestos, que nem o 100lvh cobre no começo.

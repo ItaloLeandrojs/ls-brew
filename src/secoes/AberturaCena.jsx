@@ -12,7 +12,7 @@ export default function AberturaCena({ base, quadros, logo }) {
   return (
     <ScrollSequence pasta={`${base}seq/v60`} pastaCelular={`${base}seq/v60-celular`} quadros={quadros}
       poster={`${base}seq/v60/0001.webp`} posterCelular={`${base}seq/v60-celular/0001.webp`}
-      posterReduz={`${base}seq/v60/${String(quadros).padStart(4, "0")}.webp`} rolagem={3} topo={0}
+      posterReduz={`${base}seq/v60/${String(quadros).padStart(4, "0")}.webp`} rolagem={3} topo={0} ajusteCelular="contain"
       alt="Latte art sendo desenhada numa xícara de café" className="abertura" onProgresso={aoProgredir}>
       <div className="abertura-texto">
         {reduz ? (
