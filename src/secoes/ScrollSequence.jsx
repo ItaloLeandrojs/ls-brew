@@ -26,7 +26,9 @@ export default function ScrollSequence({
   ajuste = 'cover', // 'cover' preenche a tela; 'contain' mostra o quadro inteiro
   ajusteCelular, // encaixe no celular (padrão: o mesmo de ajuste). 'contain' + fundo da cor do vídeo evita cortar a cena
   larguraMax, // largura máxima do quadro na tela, em px de CSS: impede esticar um vídeo de resolução baixa
-  poster,
+  poster, // quadro de fundo (o primeiro, para não dar pulo quando a rolagem começa)
+  posterCelular, // o mesmo, da pasta do celular (telas até larguraCelular)
+  posterReduz, // imagem do modo reduzir movimento (padrão: poster)
   topo = 0, // altura de uma barra fixa no topo: a cena prende logo abaixo dela
   alt = '',
   className = '',
@@ -44,7 +46,8 @@ export default function ScrollSequence({
   }, [ajusteCelular, larguraCelular]);
 
   useEffect(() => {
-    if (reduz) return;
+    // Lê direto: no primeiro commit o estado `reduz` ainda é false e baixaria os quadros à toa.
+    if (reduz || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const cv = canvas.current;
     const el = secao.current;
     if (!cv || !el) return;
@@ -83,13 +86,18 @@ export default function ScrollSequence({
     const ordem = [0, quadros - 1];
     for (let i = 8; i < quadros; i += 8) ordem.push(i);
     for (let i = 0; i < quadros; i++) if (!ordem.includes(i)) ordem.push(i);
-    ordem.forEach((i) => {
+    // Só depois da primeira pintura (ocioso, com prazo), para não competir com o LCP.
+    const carregar = () => ordem.forEach((i) => {
       const img = new Image();
       img.decoding = 'async';
       img.onload = () => { if (Math.abs(i - estado.f) < Math.abs(ultimo - estado.f) || ultimo < 0) desenhar(estado.f); };
       img.src = url(i);
       imgs[i] = img;
     });
+    let ocioso = 0;
+    const usaIdle = typeof requestIdleCallback === 'function';
+    if (usaIdle) ocioso = requestIdleCallback(carregar, { timeout: 1000 });
+    else ocioso = setTimeout(carregar, 200);
 
     const tween = gsap.to(estado, {
       f: quadros - 1,
@@ -101,6 +109,7 @@ export default function ScrollSequence({
     ro.observe(cv);
 
     return () => {
+      if (usaIdle) cancelIdleCallback(ocioso); else clearTimeout(ocioso);
       ro.disconnect();
       tween.scrollTrigger?.kill();
       tween.kill();
@@ -109,16 +118,17 @@ export default function ScrollSequence({
   }, [reduz, pasta, pastaCelular, quadros, digitos, extensao, rolagem, aj, larguraMax, larguraCelular, topo, onProgresso]);
 
   // O poster (fundo da seção e imagem do "reduzir movimento") respeita o mesmo limite de largura.
+  const imgReduz = posterReduz || poster;
   const tamPoster = larguraMax && aj === 'contain' ? `min(${larguraMax}px, 100%) auto` : aj;
 
   return (
     <section
       ref={secao}
       className={`seq ${className}`.trim()}
-      style={{ position: 'relative', height: topo ? `calc(100dvh - ${topo}px)` : '100dvh', overflow: 'hidden', ...(poster ? { backgroundImage: `url(${poster})`, backgroundPosition: 'center', backgroundSize: tamPoster, backgroundRepeat: 'no-repeat' } : {}) }}
+      style={{ position: 'relative', height: topo ? `calc(100dvh - ${topo}px)` : '100dvh', overflow: 'hidden', ...(poster ? { '--seq-poster': `url(${poster})`, '--seq-poster-celular': `url(${posterCelular || poster})`, backgroundPosition: 'center', backgroundSize: tamPoster, backgroundRepeat: 'no-repeat' } : {}) }}
     >
       {reduz ? (
-        poster && <img src={poster} alt={alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: aj, display: 'block', ...(larguraMax ? { maxWidth: larguraMax, margin: '0 auto' } : {}) }} />
+        imgReduz && <img src={imgReduz} alt={alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: aj, display: 'block', ...(larguraMax ? { maxWidth: larguraMax, margin: '0 auto' } : {}) }} />
       ) : (
         <canvas ref={canvas} role="img" aria-label={alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }} />
       )}
