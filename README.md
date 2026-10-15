@@ -37,9 +37,18 @@ A abertura usa uma sequência de quadros em `public/seq/`.
 
 Galeria (9 fotos) e foto da origem: WebP de 1200 px em `public/fotos`, dados e créditos em `src/dados/fotos.js`, lista em `docs/fotos-escolhidas.md`. Os originais ficam em `_midia/fotos` (fora do git).
 
-## Pendências
+## Prévia de compartilhamento
 
-- Imagem de compartilhamento `public/og.jpg` (1200 × 630): será gerada com os quadros reais.
+`public/og.jpg` (1200 × 630) é o quadro final da abertura, com o logo sobre o latte art. Se a abertura mudar, gere de novo com um print de 1200 × 630 no fim da rolagem da abertura, sem o topo.
+
+## Desempenho (Lighthouse local, 15/10/2026)
+
+| | Desempenho | Acessibilidade | Boas práticas | SEO |
+|---|---|---|---|---|
+| Celular | 90 | 100 | 81 | 66 |
+| Computador | 100 | 100 | 81 | 66 |
+
+Medido sem o script que o antivírus da máquina injeta nas páginas (com ele, o celular cai para cerca de 80). Boas práticas 81 é o aviso de "sem HTTPS" do servidor local; no GitHub Pages o site é HTTPS. SEO 66 é o `noindex`, de propósito.
 
 ## Como publicar
 
