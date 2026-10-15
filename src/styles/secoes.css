@@ -113,7 +113,8 @@ html:not(.js) .precisa-js { display: none; }
 
 /* Abertura (única parte escura) */
 .abertura { background-color: var(--escuro); color: var(--creme); }
-.abertura-texto { display: grid; place-items: center; height: 100%; padding: 0 var(--margem); text-align: center; background: radial-gradient(ellipse at center, rgba(26, 18, 13, .62) 0%, rgba(26, 18, 13, .38) 70%); }
+/* A cena tem a altura da tela grande (100lvh, sem a barra do celular); as frases centralizam na parte sempre visível (100svh). */
+.abertura-texto { display: grid; place-items: center; height: 100%; padding: 0 var(--margem) calc(100lvh - 100svh); text-align: center; background: radial-gradient(ellipse at center, rgba(26, 18, 13, .62) 0%, rgba(26, 18, 13, .38) 70%); }
 .abertura-texto > * { grid-area: 1 / 1; }
 .frase { font: 600 clamp(40px, 8vw, 96px) var(--titulo); margin: 0; opacity: 0; transform: translateY(16px); transition: opacity .6s var(--curva), transform .6s var(--curva); text-shadow: 0 2px 24px rgba(0,0,0,.35); }
 .abertura-logo { width: min(520px, 80vw); filter: drop-shadow(0 2px 18px rgba(0,0,0,.45)); opacity: 0; transform: scale(.96); transition: opacity .7s var(--curva), transform .7s var(--curva); }
