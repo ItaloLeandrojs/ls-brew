@@ -191,6 +191,47 @@ try {
     await ctx.close();
   }
 
+  console.log("\ncelular deitado e girando");
+  {
+    const { ctx, page, erros } = await pagina(browser, { viewport: { width: 915, height: 412 }, deviceScaleFactor: 2.625, isMobile: true, hasTouch: true });
+    // Conta os requestAnimationFrame pedidos pela página (para ver se o laço dorme com a cena parada).
+    await page.addInitScript(() => { const r = window.requestAnimationFrame.bind(window); window.__rafs = 0; window.requestAnimationFrame = (f) => { window.__rafs++; return r(f); }; });
+    await page.goto(URL_BASE);
+    await page.waitForFunction(() => document.getElementById("inicio").classList.contains("cena-pronta"), null, { timeout: 15000 }).catch(() => {});
+    confere(await page.locator("#inicio").getAttribute("data-conjunto") === "computador", "deitado: quadros de paisagem");
+    let pior = 0;
+    for (const p of [0.1, 0.4, 0.8, 0.3, 0.6]) {
+      await irNaAbertura(page, p);
+      for (let k = 0; k < 6; k++) { await page.waitForTimeout(50); pior = Math.max(pior, (await estado(page)).abertos); }
+    }
+    confere(pior <= 12, `deitado: no máximo 12 quadros grandes abertos (~70 MB), pior ${pior}`);
+    await page.waitForTimeout(1500);
+    const r0 = await page.evaluate(() => window.__rafs);
+    await page.waitForTimeout(1000);
+    const porSegundo = (await page.evaluate(() => window.__rafs)) - r0;
+    confere(porSegundo < 5, `cena parada: o laço dorme (${porSegundo} quadros pedidos em 1 s)`);
+    // Gira para em pé no meio da cena
+    await page.setViewportSize({ width: 412, height: 915 });
+    await page.waitForTimeout(400);
+    confere(await page.locator("#inicio canvas").count() <= 2, "ao girar, no máximo o canvas antigo e o novo ao mesmo tempo");
+    await irNaAbertura(page, 0.5);
+    await page.waitForFunction(() => document.getElementById("inicio").dataset.conjunto === "celular", null, { timeout: 8000 }).catch(() => {});
+    confere(await page.locator("#inicio").getAttribute("data-conjunto") === "celular" && await page.locator("#inicio canvas").count() === 1, "girou: troca para os quadros em pé e sobra um canvas só");
+    await page.waitForTimeout(800);
+    const e = await estado(page);
+    confere(Math.abs(e.atual - quadroDaRolagem(0.5, 120)) < 1.5 && e.abertos <= 14, `girou: quadro certo (${e.atual.toFixed(1)}) e memória no teto (${e.abertos})`);
+    // Gaveta aberta: a página não rola por trás
+    await page.getByRole("button", { name: "Seções" }).click();
+    await page.getByRole("dialog", { name: "Seções" }).waitFor({ state: "visible" });
+    const antes = await page.evaluate(() => scrollY);
+    await page.mouse.wheel(0, 600);
+    await page.waitForTimeout(500);
+    confere(await page.evaluate(() => scrollY) === antes, "gaveta aberta: a página não rola por trás");
+    await page.keyboard.press("Escape");
+    confere(erros.length === 0, `sem erros no console ${erros.length ? JSON.stringify(erros) : ""}`);
+    await ctx.close();
+  }
+
   console.log("\nreduzir movimento");
   {
     const { ctx, page } = await pagina(browser, { reducedMotion: "reduce", viewport: { width: 412, height: 915 }, isMobile: true, hasTouch: true });
@@ -219,6 +260,10 @@ try {
       confere(await f.isVisible() && await f.evaluate((el) => getComputedStyle(el).opacity) === "1", `sem JS (${nome}): frase "${t}" legível`);
     }
     confere(await page.getByText("O quiz precisa de JavaScript ligado.").isVisible(), `sem JS (${nome}): aviso do quiz`);
+    if (nome === "celular") {
+      const link = page.locator(".barra").getByRole("link", { name: "Seções" });
+      confere(await link.isVisible() && (await link.getAttribute("href")) === "#secoes-rodape", "sem JS (celular): Seções leva à lista de seções do rodapé");
+    }
     await ctx.close();
   }
 } finally {

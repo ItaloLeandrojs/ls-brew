@@ -1,5 +1,6 @@
 ---
-// Cardápio. Sem JavaScript: todas as categorias, uma embaixo da outra. Com JavaScript: abas (setas trocam de aba).
+// Cardápio. Sem JavaScript: todas as categorias, uma embaixo da outra (sem papéis de aba, que não existiriam).
+// Com JavaScript: abas no padrão WAI-ARIA (role, aria-labelledby e tabindex dos painéis entram pelo script).
 import { CARDAPIO } from "../dados/cardapio.js";
 import { formatarPreco } from "../dominio/preco.js";
 ---
@@ -14,7 +15,7 @@ import { formatarPreco } from "../dominio/preco.js";
         ))}
       </div>
       {CARDAPIO.map((cat) => (
-        <div role="tabpanel" id={`painel-${cat.id}`} aria-labelledby={`aba-${cat.id}`} class="painel">
+        <div id={`painel-${cat.id}`} data-aba={`aba-${cat.id}`} class="painel">
           <h3 class="painel-titulo so-sem-js">{cat.nome}</h3>
           <ul class="itens">
             {cat.itens.map((it) => (

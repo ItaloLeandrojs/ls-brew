@@ -14,6 +14,9 @@ const { celular, computador } = conjuntos;
 <section id="inicio" class="cena" data-fase="0" data-conjuntos={JSON.stringify(conjuntos)}>
   <div class="cena-palco">
     <picture>
+      <!-- Reduzir movimento: a arte pronta (último quadro), sem depender de JavaScript e acompanhando a rotação. -->
+      <source media="(prefers-reduced-motion: reduce) and (orientation: portrait)" srcset={`${celular.pasta}${celular.final}`} width={celular.largura} height={celular.altura} />
+      <source media="(prefers-reduced-motion: reduce)" srcset={`${computador.pasta}${computador.final}`} width={computador.largura} height={computador.altura} />
       <source media="(orientation: portrait)" srcset={`${celular.pasta}001.webp`} width={celular.largura} height={celular.altura} />
       <img class="cena-capa" src={`${computador.pasta}001.webp`} width={computador.largura} height={computador.altura} alt="Latte art sendo desenhada numa xícara de café" fetchpriority="high" />
     </picture>

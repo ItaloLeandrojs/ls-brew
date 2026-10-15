@@ -74,3 +74,10 @@ export function aproximar(atual, alvo, fator = 0.25, salto = 24) {
   if (Math.abs(dif) < 0.01 || Math.abs(dif) > salto) return alvo;
   return atual + dif * fator;
 }
+
+// Teto de quadros abertos pelo APARELHO, não pela orientação: celular ou tablet deitado usa os quadros de
+// paisagem (maiores) e não pode abrir 24 deles (~138 MB). Toque ou até 4 GB de memória: ~70 MB; senão ~160 MB.
+export function tetoDeQuadros({ largura, altura, maxAbertos }, toque, memoriaGb) {
+  const mb = toque || (memoriaGb && memoriaGb <= 4) ? 70 : 160;
+  return Math.max(8, Math.min(maxAbertos, Math.floor((mb * 1e6) / (largura * altura * 4))));
+}

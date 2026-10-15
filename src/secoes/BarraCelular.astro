@@ -11,6 +11,8 @@ import { SECOES } from "./links.js";
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
     Seções
   </button>
+  <!-- Sem JavaScript a gaveta não abre: "Seções" vira um link para a lista de seções do rodapé. -->
+  <a class="barra-secoes so-sem-js" href="#secoes-rodape">Seções</a>
   <a class="botao barra-pedir" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir pelo WhatsApp</a>
 </div>
 <dialog id="gaveta" class="gaveta" aria-labelledby="gaveta-titulo">
@@ -35,6 +37,7 @@ import { SECOES } from "./links.js";
     background: var(--cafe); color: var(--creme); box-shadow: 0 -6px 24px rgba(26, 18, 13, .18);
   }
   .barra-secoes {
+    text-decoration: none;
     display: inline-flex; align-items: center; gap: 8px; min-height: var(--toque); padding: 0 18px; border-radius: 999px;
     border: 0; box-shadow: inset 0 0 0 1.5px rgba(246, 240, 231, .55); background: transparent; color: var(--creme);
     font: 500 16px var(--texto); cursor: pointer;
@@ -62,4 +65,6 @@ import { SECOES } from "./links.js";
   .gaveta a { display: flex; align-items: center; min-height: 52px; padding: 0 12px; border-radius: 12px; font-size: 18px; text-decoration: none; }
   .gaveta a::after { content: "→"; margin-left: auto; color: var(--caramelo-texto); }
   .gaveta a:active { background: var(--bege); }
+  /* Com a gaveta aberta, arrastar o fundo escuro não rola a página (nem a abertura) por trás. */
+  :global(html:has(dialog[open])) { overflow: hidden; }
 </style>

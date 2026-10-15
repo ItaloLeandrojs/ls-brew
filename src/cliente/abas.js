@@ -23,5 +23,12 @@ export function iniciarAbas(raiz) {
     e.preventDefault();
     ativar((mapa[e.key] + abas.length) % abas.length, true);
   });
-  paineis.forEach((p, i) => { p.hidden = i !== 0; });
+  // Papéis de aba só com JavaScript: sem ele, os painéis são listas comuns e a lista de abas nem aparece.
+  // tabindex=0: o painel recebe o foco pelo Tab (o padrão pede isso quando o painel não tem nada focável).
+  paineis.forEach((p, i) => {
+    p.setAttribute("role", "tabpanel");
+    p.setAttribute("aria-labelledby", p.dataset.aba || abas[i].id);
+    p.tabIndex = 0;
+    p.hidden = i !== 0;
+  });
 }

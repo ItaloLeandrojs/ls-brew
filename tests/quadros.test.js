@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { progressoDaSecao, quadroDaRolagem, ordemDeCarga, janelaDeQuadros, quadroMaisPerto, aproximar, FIM_DA_SEQUENCIA } from "../src/dominio/quadros.js";
+import { progressoDaSecao, quadroDaRolagem, ordemDeCarga, janelaDeQuadros, quadroMaisPerto, aproximar, tetoDeQuadros, FIM_DA_SEQUENCIA } from "../src/dominio/quadros.js";
 
 describe("progressoDaSecao", () => {
   it("0 antes de chegar, 1 depois de passar", () => {
@@ -68,4 +68,14 @@ describe("aproximar", () => {
   it("encosta quando está perto", () => expect(aproximar(9.995, 10)).toBe(10));
   it("pula direto quando está muito longe (rolagem rápida)", () => expect(aproximar(0, 60)).toBe(60));
   it("fator e salto configuráveis", () => expect(aproximar(0, 10, 0.5, 100)).toBe(5));
+});
+
+describe("tetoDeQuadros", () => {
+  const celular = { largura: 960, altura: 1280, maxAbertos: 14 };
+  const paisagem = { largura: 1600, altura: 900, maxAbertos: 24 };
+  it("celular em pé: 14 (~69 MB)", () => expect(tetoDeQuadros(celular, true)).toBe(14));
+  it("celular deitado (quadros de paisagem): 12, não 24", () => expect(tetoDeQuadros(paisagem, true)).toBe(12));
+  it("computador com mouse: 24", () => expect(tetoDeQuadros(paisagem, false, 8)).toBe(24));
+  it("computador com pouca memória: como no celular", () => expect(tetoDeQuadros(paisagem, false, 4)).toBe(12));
+  it("nunca menos de 8", () => expect(tetoDeQuadros({ largura: 4000, altura: 4000, maxAbertos: 24 }, true)).toBe(8));
 });

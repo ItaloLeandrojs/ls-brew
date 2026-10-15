@@ -2,6 +2,7 @@
 // Rodapé com a newsletter (só visual: valida e agradece, não envia nada).
 import Logo from "../ui/Logo.astro";
 import { CONTATO } from "../dados/contato.js";
+import { SECOES } from "./links.js";
 ---
 <footer class="rodape">
   <div class="miolo rodape-grade">
@@ -27,6 +28,9 @@ import { CONTATO } from "../dados/contato.js";
       <p class="so-sem-js">Para receber os lotes novos, siga a gente no {CONTATO.instagram}.</p>
     </div>
   </div>
+  <nav id="secoes-rodape" class="miolo rodape-secoes" aria-label="Seções do site (rodapé)">
+    <ul>{SECOES.map(([h, t]) => <li><a href={h}>{t}</a></li>)}</ul>
+  </nav>
   <small class="miolo">Projeto de portfólio LS · cafeteria, endereço e telefone fictícios. Fotos e vídeo: Pexels. Letras Fraunces e Outfit (SIL OFL).</small>
 </footer>
 <script>
@@ -40,6 +44,8 @@ import { CONTATO } from "../dados/contato.js";
   .rodape-frase { margin-top: 16px; }
   .rodape-grade { display: grid; gap: 32px; }
   .rodape h3 { color: var(--creme); }
+  .rodape-secoes ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 8px; margin: 40px 0 0; padding: 0; }
+  .rodape-secoes a { display: inline-flex; align-items: center; min-height: var(--toque); padding: 0 10px; margin-left: -10px; color: var(--creme); }
   .rodape small { display: block; margin-top: 40px; opacity: .85; font-size: 13px; }
   .rodape :focus-visible { outline-color: var(--creme); }
   .news label { display: block; margin-bottom: 8px; }

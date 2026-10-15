@@ -31,18 +31,21 @@ async function abrirQuadro(blob) {
  * @param {number} o.altura
  * @param {number} o.maxAbertos  teto de quadros decodificados na memória
  * @param {() => void} [o.aoDesenharPrimeiro]
+ * @param {() => void} [o.aoMudar]  um quadro novo ficou pronto (para acordar o laço de desenho)
  * @param {Promise<unknown>} [o.comecarQuando]  os downloads esperam isto (ex.: a página terminar de carregar)
  */
-export function criarSequencia({ canvas, endereco, total, largura, altura, maxAbertos, aoDesenharPrimeiro, comecarQuando = Promise.resolve() }) {
+export function criarSequencia({ canvas, endereco, total, largura, altura, maxAbertos, aoDesenharPrimeiro, aoMudar, comecarQuando = Promise.resolve() }) {
   canvas.width = largura;
   canvas.height = altura;
   const ctx = canvas.getContext("2d", { alpha: false });
   const blobs = new Array(total);
+  const falhas = new Array(total).fill(0);
   const abertos = new Map();
   const abrindo = new Set();
   let alvo = 0;
   let atual = 0;
   let sentido = 1;
+  let baseJanela = -1;
   let ultimoDesenho = "";
   let desenhos = 0;
   let baixados = 0;
@@ -67,10 +70,16 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
   };
   comecarQuando.then(() => { for (let k = 0; k < 4; k++) baixar(); });
 
+  // A janela fica em volta do quadro DESENHADO (atual), não do alvo: o atual chega ao alvo aos poucos e,
+  // numa rolagem rápida, uma janela em volta do alvo já teria fechado o quadro que ainda vai ser desenhado.
+  // Como a frente da janela pesa o dobro, o caminho até o alvo fica coberto.
+  const janela = () => janelaDeQuadros(atual, total, maxAbertos, sentido);
+
   // Abre os quadros da janela (até 2 ao mesmo tempo) e fecha os que saíram dela.
   function organizar() {
     if (destruida || !ligada) return;
-    const desejados = janelaDeQuadros(alvo, total, maxAbertos, sentido);
+    const desejados = janela();
+    baseJanela = Math.floor(atual);
     const manter = new Set(desejados);
     for (const [i, bmp] of abertos) if (!manter.has(i)) { bmp.close(); abertos.delete(i); }
     for (const i of desejados) {
@@ -79,25 +88,34 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
       abrindo.add(i);
       abrirQuadro(blobs[i]).then((bmp) => {
         abrindo.delete(i);
-        const aindaQuero = ligada && !destruida && janelaDeQuadros(alvo, total, maxAbertos, sentido).includes(i);
-        if (aindaQuero) abertos.set(i, bmp); else bmp.close();
+        const aindaQuero = ligada && !destruida && janela().includes(i);
+        if (aindaQuero) { abertos.set(i, bmp); aoMudar?.(); } else bmp.close();
         organizar();
-      }, () => { abrindo.delete(i); });
+      }, () => {
+        // Quadro que não abre (sem memória, resposta que não é imagem): duas falhas e ele sai da fila,
+        // senão as duas vagas de abertura ficariam presas nele e o resto da janela nunca abriria.
+        abrindo.delete(i);
+        if (++falhas[i] >= 2) blobs[i] = undefined;
+        setTimeout(organizar, 100);
+      });
     }
   }
 
   // Um passo por quadro de tela: aproxima do alvo e redesenha só se mudou.
+  // Devolve true enquanto há trabalho (andando, abrindo quadros ou acabou de desenhar); false = pode dormir.
   function passo() {
-    if (destruida) return;
+    if (destruida) return false;
     atual = aproximar(atual, alvo);
+    if (Math.floor(atual) !== baseJanela) organizar();
     const i0 = Math.floor(atual);
     const fracao = atual - i0;
     const tem = (i) => abertos.has(i);
     const a = tem(i0) ? i0 : quadroMaisPerto(atual, total, tem);
-    if (a < 0) return;
+    const ocupada = atual !== alvo || abrindo.size > 0;
+    if (a < 0) return ocupada;
     const b = a === i0 && fracao > 0.02 && tem(i0 + 1) ? i0 + 1 : -1;
     const chave = b < 0 ? `${a}` : `${a}+${fracao.toFixed(2)}`;
-    if (chave === ultimoDesenho) return;
+    if (chave === ultimoDesenho) return ocupada;
     ctx.globalAlpha = 1;
     ctx.drawImage(abertos.get(a), 0, 0);
     if (b >= 0) {
@@ -108,6 +126,7 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
     if (!desenhos) aoDesenharPrimeiro?.();
     ultimoDesenho = chave;
     desenhos++;
+    return true;
   }
 
   return {
@@ -117,7 +136,6 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
       if (q === alvo) return;
       sentido = q > alvo ? 1 : -1;
       alvo = q;
-      organizar();
     },
     /** Fora da tela: fecha todos os quadros abertos (libera a memória para o resto da página). */
     desligar() {
@@ -136,6 +154,6 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
       abertos.clear();
     },
     /** Para os testes e para medir no celular. */
-    estado: () => ({ abertos: abertos.size, abrindo: abrindo.size, baixados, desenhos, alvo, atual }),
+    estado: () => ({ abertos: abertos.size, abrindo: abrindo.size, baixados, desenhos, alvo, atual, desenhado: ultimoDesenho }),
   };
 }
