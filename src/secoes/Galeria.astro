@@ -1,0 +1,21 @@
+---
+import { FOTOS, FOTO_ORIGEM } from "../dados/fotos.js";
+import { CONTATO } from "../dados/contato.js";
+const base = import.meta.env.BASE_URL;
+---
+<section id="galeria" class="secao">
+  <div class="miolo">
+    <p class="rotulo">{CONTATO.instagram}</p>
+    <h2>Um dia na LS Brew</h2>
+    <ul class="galeria">
+      {FOTOS.map((f) => (
+        <li data-revelar><img src={`${base}fotos/${f.arquivo}`} alt={f.alt} loading="lazy" decoding="async" width={f.largura} height={f.altura} /></li>
+      ))}
+    </ul>
+    <p class="creditos">
+      Fotos do Pexels: {FOTOS.map((f, i) => <>{i > 0 && ", "}<a href={f.link} rel="noopener" target="_blank">{f.autor}</a></>)}.
+      Foto da origem: <a href={FOTO_ORIGEM.link} rel="noopener" target="_blank">{FOTO_ORIGEM.autor}</a>.
+      Vídeo da abertura: <a href="https://www.pexels.com/video/making-latte-art-close-up-6769791/" rel="noopener" target="_blank">K</a>.
+    </p>
+  </div>
+</section>

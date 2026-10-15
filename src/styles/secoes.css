@@ -15,7 +15,8 @@
 
 /* Origem */
 .origem-grade { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
-.mapa { width: 100%; height: auto; color: var(--caramelo-texto); }
+.mapa { width: 100%; max-width: 420px; height: auto; margin-top: 24px; color: var(--caramelo-texto); }
+.foto-origem { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--raio); }
 .lotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
 .lote { background: var(--bege); border-radius: var(--raio); padding: 22px; }
 .lote .rotulo { color: var(--texto-2); } /* caramelo-texto não passa no AA sobre o bege */
@@ -119,3 +120,11 @@ html:not(.js) .frase, html:not(.js) .abertura-logo { opacity: 1; transform: none
 html:not(.js) .abertura-texto { grid-auto-flow: row; align-content: center; gap: 8px; }
 html:not(.js) .abertura-texto > * { grid-area: auto; }
 @media (prefers-reduced-motion: reduce) { .abertura-texto { grid-auto-flow: row; align-content: center; gap: 8px; } .abertura-texto > * { grid-area: auto; } }
+
+/* Galeria */
+.galeria { list-style: none; padding: 0; margin: 32px 0 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.galeria li { overflow: hidden; border-radius: 10px; aspect-ratio: 1; background: var(--bege); }
+.galeria img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--curva); }
+@media (hover: hover) { .galeria li:hover img { transform: scale(1.05); } }
+.creditos { font-size: 13px; color: var(--texto-2); }
+@media (max-width: 860px) { .galeria { grid-template-columns: repeat(2, 1fr); } }

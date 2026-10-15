@@ -5,6 +5,8 @@ import { PLANOS } from "../src/dados/planos.js";
 import { METODOS } from "../src/dados/preparo.js";
 import { PERGUNTAS } from "../src/dados/quiz.js";
 import { CONTATO } from "../src/dados/contato.js";
+import { FOTOS, FOTO_ORIGEM } from "../src/dados/fotos.js";
+import { existsSync } from "node:fs";
 
 const ids = (l) => l.map((x) => x.id);
 
@@ -37,4 +39,15 @@ describe("dados", () => {
     for (const p of PERGUNTAS) expect(new Set(p.opcoes.map((o) => o.lote)).size).toBe(3);
   });
   it("contato fictício em Fortaleza", () => { expect(CONTATO.cidade).toBe("Fortaleza/CE"); expect(CONTATO.horarios.length).toBeGreaterThan(0); });
+  it("9 fotos na galeria, todas com alt, autor, link do Pexels e arquivo existente", () => {
+    expect(FOTOS).toHaveLength(9);
+    for (const f of [...FOTOS, FOTO_ORIGEM]) {
+      expect(f.alt.length).toBeGreaterThan(10);
+      expect(f.autor).toBeTruthy();
+      expect(f.link).toMatch(/^https:\/\/www\.pexels\.com\/photo\//);
+      expect(f.largura).toBeGreaterThan(0);
+      expect(f.altura).toBeGreaterThan(0);
+      expect(existsSync(new URL(`../public/fotos/${f.arquivo}`, import.meta.url))).toBe(true);
+    }
+  });
 });

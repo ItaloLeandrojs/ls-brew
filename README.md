@@ -35,7 +35,7 @@ A abertura usa uma sequência de quadros em `public/seq/`.
 
 ## Pendências
 
-- Galeria de fotos: aguardando a escolha das fotos em `docs/candidatos-midia.md`.
+- Galeria (9 fotos) e foto da origem: WebP de 1200 px em `public/fotos`, dados e créditos em `src/dados/fotos.js`, lista em `docs/fotos-escolhidas.md`.
 - Imagem de compartilhamento `public/og.jpg` (1200 × 630): será gerada com os quadros reais.
 
 ## Como publicar
@@ -52,6 +52,6 @@ O site nasce com `noindex`. Para liberar, troque `INDEXAR = true` em `src/config
 
 ## Créditos
 
-- Vídeo e fotos: [Pexels](https://www.pexels.com/) (autor e link de cada item serão preenchidos aqui quando forem escolhidos).
+- Vídeo e fotos: [Pexels](https://www.pexels.com/). Autor e link de cada foto estão em `src/dados/fotos.js` e aparecem no site, embaixo da galeria; vídeo da abertura de K (link acima).
 - Fontes: Fraunces e Outfit, licença SIL OFL.
 - Marca: pasta `../ls-brew-marca`.

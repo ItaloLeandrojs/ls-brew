@@ -1,19 +1,24 @@
 ---
 import { LOTES } from "../dados/lotes.js";
+import { FOTO_ORIGEM } from "../dados/fotos.js";
+const base = import.meta.env.BASE_URL;
 ---
 <section id="origem" class="secao">
   <div class="miolo">
     <div class="origem-grade">
-      <div data-revelar>
-        <p class="rotulo">Origem</p>
-        <h2>Café de sombra, da Serra de Baturité</h2>
-        <p class="sub">A uns 100 km de Fortaleza, o café cresce devagar à sombra da Mata Atlântica. Compramos direto de três sítios e torramos em pequenos lotes, toda semana.</p>
+      <div>
+        <div data-revelar>
+          <p class="rotulo">Origem</p>
+          <h2>Café de sombra, da Serra de Baturité</h2>
+          <p class="sub">A uns 100 km de Fortaleza, o café cresce devagar à sombra da Mata Atlântica. Compramos direto de três sítios e torramos em pequenos lotes, toda semana.</p>
+        </div>
+        <svg class="mapa" viewBox="0 0 400 300" role="img" aria-label="Mapa: Serra de Baturité até Fortaleza, cerca de 100 km" data-desenhar>
+          <path d="M70 230 C 140 200, 170 120, 250 110 S 330 60, 340 50" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" pathLength="1"/>
+          <circle cx="70" cy="230" r="9" fill="var(--caramelo)"/><text x="88" y="250" font-size="16" fill="var(--cafe)">Serra de Baturité</text>
+          <circle cx="340" cy="50" r="9" fill="var(--cafe)"/><text x="230" y="36" font-size="16" fill="var(--cafe)">Fortaleza</text>
+        </svg>
       </div>
-      <svg class="mapa" viewBox="0 0 400 300" role="img" aria-label="Mapa: Serra de Baturité até Fortaleza, cerca de 100 km" data-desenhar>
-        <path d="M70 230 C 140 200, 170 120, 250 110 S 330 60, 340 50" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" pathLength="1"/>
-        <circle cx="70" cy="230" r="9" fill="var(--caramelo)"/><text x="88" y="250" font-size="16" fill="var(--cafe)">Serra de Baturité</text>
-        <circle cx="340" cy="50" r="9" fill="var(--cafe)"/><text x="230" y="36" font-size="16" fill="var(--cafe)">Fortaleza</text>
-      </svg>
+      <img class="foto-origem" data-revelar src={`${base}fotos/${FOTO_ORIGEM.arquivo}`} alt={FOTO_ORIGEM.alt} loading="lazy" decoding="async" width={FOTO_ORIGEM.largura} height={FOTO_ORIGEM.altura} />
     </div>
     <div class="lotes">
       {LOTES.map((l) => (
