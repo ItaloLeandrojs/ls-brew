@@ -1,21 +1,47 @@
+/* Base, celular primeiro: o estilo sem media query é o do celular; o computador entra com min-width: 861px. */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 72px; }
-body { margin: 0; background: var(--creme); color: var(--cafe); font: 400 17px/1.6 var(--texto); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-h1, h2, h3 { font-family: var(--titulo); font-weight: 600; line-height: 1.1; margin: 0 0 .4em; letter-spacing: -0.01em; }
-h2 { font-size: clamp(32px, 5vw, 56px); }
+/* overflow-x: clip (e não hidden) para não quebrar o position: sticky da abertura. */
+html { overflow-x: clip; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0; overflow-x: clip; background: var(--creme); color: var(--cafe);
+  font: 400 17px/1.6 var(--texto); -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  /* Celular deitado com recorte de câmera: o conteúdo não entra embaixo dele. */
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+}
+h1, h2, h3 { font-family: var(--titulo); font-weight: 600; line-height: 1.1; margin: 0 0 .4em; letter-spacing: -0.01em; text-wrap: balance; }
+h2 { font-size: clamp(30px, 7vw, 56px); }
 h3 { font-size: clamp(20px, 2.4vw, 26px); }
-p { margin: 0 0 1em; }
-img { max-width: 100%; display: block; }
+p { margin: 0 0 1em; text-wrap: pretty; }
+img, svg, canvas { max-width: 100%; display: block; }
 a { color: inherit; }
+button, a, [role="tab"] { touch-action: manipulation; }
+
 .preco { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.secao { padding: clamp(72px, 12vw, 140px) var(--margem); }
+.secao { padding: 64px var(--margem); }
 .miolo { max-width: var(--largura); margin: 0 auto; }
-.rotulo { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--caramelo-texto); margin-bottom: 12px; }
+.rotulo { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--caramelo-texto); margin-bottom: 10px; }
 .sub { color: var(--texto-2); max-width: 60ch; }
-.botao { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; border: 0; background: var(--caramelo); color: var(--cafe); font: 500 16px var(--texto); text-decoration: none; cursor: pointer; transition: background .2s var(--curva), transform .2s var(--curva); }
-.botao:hover { background: var(--caramelo-hover); }
-.botao:active { transform: scale(.97); }
-.botao.contorno { background: transparent; box-shadow: inset 0 0 0 1.5px var(--cafe); }
-:focus-visible { outline: 2.5px solid var(--cafe); outline-offset: 3px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* Botões: 48 px de altura no mínimo (alvo de toque). */
+.botao {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--toque); padding: 12px 22px; border-radius: 999px; border: 0;
+  background: var(--caramelo); color: var(--cafe); font: 500 16px/1.2 var(--texto);
+  text-decoration: none; cursor: pointer; transition: background-color .16s var(--ease-out), transform .16s var(--ease-out);
+}
+.botao:active { transform: scale(.97); }
+.botao.contorno { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+@media (hover: hover) and (pointer: fine) { .botao:hover { background: var(--caramelo-hover); } .botao.contorno:hover { background: rgba(59, 42, 32, .06); } }
+:focus-visible { outline: 2.5px solid var(--cafe); outline-offset: 3px; }
+
+/* Sem JavaScript: as partes que dependem dele somem e aparece o que foi feito para esse caso. */
+html:not(.js) .precisa-js { display: none !important; }
+.js .so-sem-js { display: none !important; }
+
+@media (min-width: 861px) {
+  .secao { padding: clamp(96px, 10vw, 140px) var(--margem); }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

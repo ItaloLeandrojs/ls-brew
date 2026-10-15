@@ -1,12 +1,33 @@
 ---
+// Topo. Celular: só o logo claro por cima da abertura, e ele vai embora com a rolagem (a tela fica toda para o conteúdo;
+// menu e pedido ficam na barra de baixo, na área do polegar). Computador: barra fixa com o menu e o botão Pedir.
 import Logo from "../ui/Logo.astro";
 import { WHATSAPP } from "../config.js";
 import { CONTATO } from "../dados/contato.js";
 import { linkWhatsApp } from "../dominio/whatsapp.js";
-const links = [["#origem", "Origem"], ["#cardapio", "Cardápio"], ["#preparo", "Preparo"], ["#quiz", "Quiz"], ["#clube", "Clube"], ["#visite", "Visite"]];
+import { SECOES } from "./links.js";
 ---
 <header class="topo">
-  <a href="#conteudo" aria-label="LS Brew, início"><Logo /></a>
-  <nav aria-label="Seções">{links.map(([h, t]) => <a href={h}>{t}</a>)}</nav>
-  <a class="botao" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir</a>
+  <a class="topo-logo" href="#inicio" aria-label="LS Brew, início">
+    <Logo classe="logo-celular" variante="escuro" />
+    <Logo classe="logo-computador" />
+  </a>
+  <nav class="topo-nav" aria-label="Seções">{SECOES.map(([h, t]) => <a href={h}>{t}</a>)}</nav>
+  <a class="botao topo-pedir" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir</a>
 </header>
+<style>
+  .topo { position: absolute; inset: 0 0 auto; z-index: 50; display: flex; align-items: center; padding: calc(14px + env(safe-area-inset-top, 0px)) var(--margem) 14px; }
+  .topo-logo { display: flex; align-items: center; min-height: var(--toque); }
+  .topo :global(.logo) { height: 30px; }
+  .topo :global(.logo-computador), .topo-nav, .topo-pedir { display: none; }
+  @media (min-width: 861px) {
+    /* Cor sólida, sem desfoque: o backdrop-filter pesa a cada quadro da rolagem. */
+    .topo { position: fixed; height: var(--topo); padding-block: 0; justify-content: space-between; gap: 16px; background: var(--creme); border-bottom: 1px solid var(--bege); }
+    .topo :global(.logo-celular) { display: none; }
+    .topo :global(.logo-computador) { display: inline-block; height: 34px; }
+    .topo-nav { display: flex; gap: 4px; font-size: 15px; }
+    .topo-nav a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 10px; border-radius: 999px; text-decoration: none; color: var(--texto-2); transition: color .16s var(--ease-out), background-color .16s var(--ease-out); }
+    .topo-pedir { display: inline-flex; min-height: 40px; padding: 8px 18px; font-size: 15px; }
+  }
+  @media (min-width: 861px) and (hover: hover) and (pointer: fine) { .topo-nav a:hover { color: var(--cafe); background: var(--bege); } }
+</style>

@@ -14,7 +14,7 @@ if (metades.length !== 2) throw new Error(`Visite: esperava 2 metades do grão n
       <h2>Passa aqui pra um café</h2>
       <p class="sub">{CONTATO.endereco} · {CONTATO.bairro} · {CONTATO.cidade}</p>
       <dl>{CONTATO.horarios.map((h) => (<><dt>{h.dias}</dt><dd>{h.horas}</dd></>))}</dl>
-      <a class="botao" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir pelo WhatsApp</a>
+      <a class="botao visite-pedir" href={linkWhatsApp(WHATSAPP, CONTATO.mensagemPedido)} target="_blank" rel="noopener">Pedir pelo WhatsApp</a>
     </div>
     <figure class="mapa-rua">
       <svg viewBox="0 0 480 360" role="img" aria-label={`Mapa ilustrativo: a LS Brew fica na ${CONTATO.endereco}, esquina com a Rua do Coado, no ${CONTATO.bairro}, perto da Praça do Grão e da orla`}>
@@ -62,3 +62,13 @@ if (metades.length !== 2) throw new Error(`Visite: esperava 2 metades do grão n
     </figure>
   </div>
 </section>
+<style>
+  .visite-grade { display: grid; gap: 32px; }
+  .visite dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; margin: 20px 0 24px; }
+  .visite dt { color: var(--texto-2); }
+  .visite dd { margin: 0; }
+  .mapa-rua { margin: 0; }
+  .mapa-rua svg { width: 100%; height: auto; border-radius: var(--raio); }
+  .mapa-rua figcaption { margin-top: 8px; font-size: 13px; color: var(--texto-2); }
+  @media (min-width: 861px) { .visite-grade { grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; } }
+</style>

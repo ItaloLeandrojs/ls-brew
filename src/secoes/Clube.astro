@@ -22,3 +22,20 @@ import { linkWhatsApp } from "../dominio/whatsapp.js";
     </div>
   </div>
 </section>
+<style>
+  .planos { display: grid; gap: 20px; margin-top: 32px; }
+  .plano { position: relative; background: var(--bege); border-radius: var(--raio); padding: 24px 22px; display: flex; flex-direction: column; }
+  .plano.destaque { background: var(--cafe); color: var(--creme); }
+  .plano.destaque :focus-visible { outline-color: var(--creme); }
+  .plano h3 { margin: 0; }
+  .plano ul { padding-left: 18px; margin: 10px 0 20px; flex: 1; }
+  .plano .valor { font: 600 30px var(--titulo); margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .plano .valor small { font: 400 15px var(--texto); }
+  .plano .botao { align-self: stretch; }
+  .selo { position: absolute; top: -12px; left: 22px; background: var(--caramelo); color: var(--cafe); font-size: 13px; padding: 3px 12px; border-radius: 999px; margin: 0; }
+  @media (min-width: 861px) {
+    .planos { grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+    .plano { padding: 28px 24px; }
+    .plano .botao { align-self: flex-start; }
+  }
+</style>

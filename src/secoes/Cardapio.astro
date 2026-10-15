@@ -1,0 +1,67 @@
+---
+// Cardápio. Sem JavaScript: todas as categorias, uma embaixo da outra. Com JavaScript: abas (setas trocam de aba).
+import { CARDAPIO } from "../dados/cardapio.js";
+import { formatarPreco } from "../dominio/preco.js";
+---
+<section id="cardapio" class="secao">
+  <div class="miolo">
+    <p class="rotulo">Cardápio</p>
+    <h2>Do coado ao pão de queijo</h2>
+    <div class="cardapio" data-abas>
+      <div role="tablist" aria-label="Categorias do cardápio" class="abas precisa-js">
+        {CARDAPIO.map((c, i) => (
+          <button type="button" role="tab" id={`aba-${c.id}`} aria-controls={`painel-${c.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} class="aba">{c.nome}</button>
+        ))}
+      </div>
+      {CARDAPIO.map((cat) => (
+        <div role="tabpanel" id={`painel-${cat.id}`} aria-labelledby={`aba-${cat.id}`} class="painel">
+          <h3 class="painel-titulo so-sem-js">{cat.nome}</h3>
+          <ul class="itens">
+            {cat.itens.map((it) => (
+              <li class="item">
+                <div>
+                  <h3>{it.nome}</h3>
+                  <p class="desc">{it.descricao}</p>
+                  {it.notas && <p class="notas">{it.notas.join(" · ")}</p>}
+                </div>
+                <span class="preco">{formatarPreco(it.preco)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<script>
+  import { iniciarAbas } from "../cliente/abas.js";
+  document.querySelectorAll("[data-abas]").forEach(iniciarAbas);
+</script>
+<style>
+  .painel-titulo { margin-top: 32px; }
+  .painel.entrando { animation: entra .3s var(--ease-out); }
+  .itens { list-style: none; padding: 0; margin: 0; display: grid; }
+  .item { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--bege); }
+  .item h3 { font-size: 19px; margin: 0 0 4px; }
+  .item .desc { margin: 0; color: var(--texto-2); font-size: 15px; }
+  .item .notas { margin: 4px 0 0; color: var(--caramelo-texto); font-size: 14px; }
+  .item .preco { font-weight: 500; }
+  @media (min-width: 861px) { .itens { grid-template-columns: 1fr 1fr; gap: 0 48px; } .item { padding: 18px 0; } .item h3 { font-size: 20px; } }
+</style>
+<style is:global>
+  /* Abas em linha deslizante no celular (não quebram em duas linhas); também usadas no Preparo. */
+  .abas {
+    display: flex; gap: 8px; margin: 24px calc(-1 * var(--margem)); padding: 2px var(--margem);
+    overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+  }
+  .abas::-webkit-scrollbar { display: none; }
+  .aba {
+    flex: none; min-height: var(--toque); border: 0; border-radius: 999px; padding: 0 20px;
+    background: var(--bege); color: var(--cafe); font: 500 15px var(--texto); cursor: pointer;
+    transition: background-color .16s var(--ease-out), color .16s var(--ease-out);
+  }
+  .aba:active { transform: scale(.97); }
+  .aba[aria-selected="true"], .aba[aria-pressed="true"] { background: var(--cafe); color: var(--creme); }
+  @keyframes entra { from { opacity: 0; transform: translateY(8px); } }
+  @media (min-width: 861px) { .abas { flex-wrap: wrap; margin: 32px 0; padding: 0; overflow: visible; } .aba { min-height: 44px; } }
+</style>

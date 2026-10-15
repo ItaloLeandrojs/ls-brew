@@ -1,0 +1,79 @@
+---
+// Guia de preparo. Sem JavaScript: as fichas dos três métodos à mostra. Com JavaScript: escolhe o método e usa o cronômetro.
+import { METODOS } from "../dados/preparo.js";
+import { formatarTempo, totalSegundos } from "../dominio/cronometro.js";
+const R = 54, C = 2 * Math.PI * R;
+const primeiro = METODOS[0];
+---
+<section id="preparo" class="secao preparo">
+  <div class="miolo">
+    <p class="rotulo">Guia de preparo</p>
+    <h2>Faça em casa, com o nosso tempo</h2>
+    <p class="sub so-sem-js">O cronômetro precisa de JavaScript ligado. As fichas de cada método estão abaixo.</p>
+    <div class="abas precisa-js" role="group" aria-label="Método de preparo">
+      {METODOS.map((m, i) => <button type="button" class="aba" data-metodo={i} aria-pressed={i === 0 ? "true" : "false"}>{m.nome}</button>)}
+    </div>
+    <div class="preparo-grade">
+      <div class="preparo-fichas">
+        {METODOS.map((m, i) => (
+          <section class="ficha-metodo" data-ficha={i}>
+            <h3 class="so-sem-js">{m.nome}</h3>
+            <dl class="ficha">
+              <dt>Proporção</dt><dd>{m.proporcao}</dd>
+              <dt>Dose</dt><dd>{m.dose}</dd>
+              <dt>Água</dt><dd>{m.agua}</dd>
+              <dt>Moagem</dt><dd>{m.moagem}</dd>
+              <dt>Temperatura</dt><dd>{m.temperatura}</dd>
+            </dl>
+          </section>
+        ))}
+      </div>
+      <div class="relogio precisa-js" data-relogio>
+        <div class="relogio-anel">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r={R} fill="none" stroke="var(--creme)" stroke-width="8" />
+            <circle class="anel" cx="60" cy="60" r={R} fill="none" stroke="var(--caramelo)" stroke-width="8" stroke-linecap="round"
+              stroke-dasharray={C} stroke-dashoffset={C} transform="rotate(-90 60 60)" />
+          </svg>
+          <p class="tempo preco" data-tempo aria-live="off">{formatarTempo(totalSegundos(primeiro.etapas))}</p>
+        </div>
+        <p class="etapa" data-etapa aria-live="polite">1/{primeiro.etapas.length} · {primeiro.etapas[0].nome}</p>
+        <div class="controles">
+          <button type="button" class="botao" data-iniciar>Iniciar</button>
+          <button type="button" class="botao contorno" data-zerar>Zerar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  import { iniciarPreparo } from "../cliente/preparo.js";
+  iniciarPreparo(document.getElementById("preparo"));
+</script>
+<style>
+  .preparo { background: var(--bege); }
+  .preparo .rotulo { color: var(--texto-2); }
+  .preparo .aba { background: var(--creme); }
+  .preparo .aba[aria-pressed="true"] { background: var(--cafe); color: var(--creme); }
+  .preparo-grade { display: grid; gap: 32px; }
+  .preparo-fichas { display: grid; gap: 28px; }
+  :global(.js) .ficha-metodo[hidden] { display: none; }
+  .ficha { display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; margin: 0; font-size: 17px; }
+  .ficha dt { color: var(--texto-2); }
+  .ficha dd { margin: 0; font-weight: 500; }
+  .relogio { text-align: center; }
+  .relogio-anel { position: relative; width: min(240px, 64vw); margin: 0 auto; }
+  .relogio-anel svg { width: 100%; height: auto; }
+  /* Sem transição no anel: ele é redesenhado a cada quadro (uma transição reiniciada 60 vezes por segundo trava o anel). */
+  .tempo { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font: 600 clamp(36px, 10vw, 44px) var(--titulo); }
+  .etapa { color: var(--texto-2); margin: 16px auto; max-width: 32ch; min-height: 3.2em; }
+  .controles { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .controles .botao { min-width: 128px; }
+  @media (min-width: 861px) {
+    .preparo-grade { grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 8px; }
+    :global(html:not(.js)) .preparo-grade { grid-template-columns: 1fr; }
+    :global(html:not(.js)) .preparo-fichas { grid-template-columns: repeat(3, 1fr); }
+    .ficha { font-size: 18px; gap: 10px 24px; }
+    .relogio-anel { width: 280px; }
+  }
+</style>

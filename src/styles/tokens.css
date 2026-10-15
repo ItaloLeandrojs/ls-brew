@@ -18,5 +18,13 @@
   --raio: 14px;
   --largura: 1180px;
   --margem: clamp(16px, 4vw, 40px);
+  /* Movimento (valores do Emil, skill ls-motion) */
   --curva: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Celular */
+  --toque: 48px;        /* alvo mínimo de toque (Material 48 dp; cobre os 44 pt da Apple) */
+  --barra: 64px;        /* barra de baixo do celular, sem contar a margem segura */
+  --topo: 64px;         /* topo fixo do computador */
+  --seguro-baixo: env(safe-area-inset-bottom, 0px);
 }

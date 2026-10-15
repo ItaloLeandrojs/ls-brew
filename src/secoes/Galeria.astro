@@ -1,4 +1,5 @@
 ---
+// Galeria em 3 colunas quadradas, como um perfil do Instagram: 9 fotos = 3×3, sem buraco no celular nem no computador.
 import { FOTOS, FOTO_ORIGEM, versao600 } from "../dados/fotos.js";
 import { CONTATO } from "../dados/contato.js";
 const base = import.meta.env.BASE_URL;
@@ -7,9 +8,9 @@ const base = import.meta.env.BASE_URL;
   <div class="miolo">
     <p class="rotulo">{CONTATO.instagram}</p>
     <h2>Um dia na LS Brew</h2>
-    <ul class="galeria">
+    <ul class="galeria" data-revelar>
       {FOTOS.map((f) => (
-        <li data-revelar><img src={`${base}fotos/${f.arquivo}`} srcset={`${base}fotos/${versao600(f.arquivo)} 600w, ${base}fotos/${f.arquivo} 1200w`} sizes="(max-width: 860px) 50vw, 400px" alt={f.alt} loading="lazy" decoding="async" width={f.largura} height={f.altura} /></li>
+        <li><img src={`${base}fotos/${f.arquivo}`} srcset={`${base}fotos/${versao600(f.arquivo)} 600w, ${base}fotos/${f.arquivo} 1200w`} sizes="(max-width: 860px) 34vw, 400px" alt={f.alt} loading="lazy" decoding="async" width={f.largura} height={f.altura} /></li>
       ))}
     </ul>
     <p class="creditos">
@@ -19,3 +20,14 @@ const base = import.meta.env.BASE_URL;
     </p>
   </div>
 </section>
+<style>
+  /* Celular: borda a borda, 2 px entre as fotos (como o app). */
+  .galeria { list-style: none; padding: 0; margin: 24px calc(-1 * var(--margem)) 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .galeria li { overflow: hidden; aspect-ratio: 1; background: var(--bege); }
+  .galeria img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .galeria li:hover img { transform: scale(1.05); } }
+  .creditos { font-size: 13px; color: var(--texto-2); }
+  /* Links dos créditos com área de toque maior sem mudar o texto. */
+  .creditos a { display: inline-block; padding: 6px 0; }
+  @media (min-width: 861px) { .galeria { margin: 32px 0 12px; gap: 8px; } .galeria li { border-radius: 10px; } }
+</style>

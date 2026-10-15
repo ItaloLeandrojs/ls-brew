@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { emailValido } from "../src/dominio/email.js";
 import { faseDaAbertura, saidaDaAbertura } from "../src/dominio/abertura.js";
-import { deveMostrarEntrada } from "../src/dominio/entrada.js";
 import { valorContagem } from "../src/dominio/contagem.js";
 
 describe("emailValido", () => {
@@ -22,13 +21,6 @@ describe("saidaDaAbertura", () => {
   it("nada de creme até 90% da rolagem", () => { expect(saidaDaAbertura(0)).toBe(0); expect(saidaDaAbertura(0.9)).toBe(0); });
   it("esmaece de 90% a 100%", () => { expect(saidaDaAbertura(0.95)).toBeCloseTo(0.5); expect(saidaDaAbertura(1)).toBe(1); });
   it("fora da faixa é limitado", () => { expect(saidaDaAbertura(-1)).toBe(0); expect(saidaDaAbertura(2)).toBe(1); });
-});
-
-describe("deveMostrarEntrada", () => {
-  it("primeira visita de gente", () => expect(deveMostrarEntrada({ visto: false, automatizado: false, forcar: false })).toBe(true));
-  it("já viu nesta visita", () => expect(deveMostrarEntrada({ visto: true, automatizado: false, forcar: false })).toBe(false));
-  it("navegador automatizado não vê", () => expect(deveMostrarEntrada({ visto: false, automatizado: true, forcar: false })).toBe(false));
-  it("?abertura=1 força sempre", () => expect(deveMostrarEntrada({ visto: true, automatizado: true, forcar: true })).toBe(true));
 });
 
 describe("valorContagem", () => {

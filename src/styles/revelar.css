@@ -1,0 +1,10 @@
+/* Revelar ao rolar: o conteúdo já nasce visível sem JS (a classe .js no <html> liga o efeito).
+   Âncoras: cada seção para logo abaixo do topo fixo do computador (no celular o topo não é fixo). */
+.js [data-revelar] { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ease-out), transform .6s var(--ease-out); }
+.js [data-revelar].visivel { opacity: 1; transform: none; }
+.js [data-desenhar] path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease-out); }
+.js [data-desenhar].visivel path { stroke-dashoffset: 0; }
+@media (min-width: 861px) {
+  .js [data-revelar] { transform: translateY(24px); transition-duration: .7s; }
+  main > section { scroll-margin-top: var(--topo); }
+}

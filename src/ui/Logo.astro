@@ -1,15 +1,12 @@
 ---
 // Logo LS Brew em linha (SVG da pasta ls-brew-marca). variante: claro (fundo claro) | escuro.
-import claro from "../assets/logo/ls-brew-fundo-claro.svg?raw";
-import escuro from "../assets/logo/ls-brew-fundo-escuro.svg?raw";
-import simClaro from "../assets/logo/ls-brew-simbolo-fundo-claro.svg?raw";
-import simEscuro from "../assets/logo/ls-brew-simbolo-fundo-escuro.svg?raw";
-const { variante = "claro", comNome = true, classe = "" } = Astro.props;
-const svg = comNome ? (variante === "escuro" ? escuro : claro) : (variante === "escuro" ? simEscuro : simClaro);
-const acessivel = svg.replace("<svg ", '<svg role="img" aria-label="LS Brew" ');
+// Como <img>: cada SVG tem ~20 KB; em linha ele se repetia no HTML (topo do celular, do computador e rodapé).
+// Como arquivo, baixa uma vez e fica no cache.
+import claro from "../assets/logo/ls-brew-fundo-claro.svg?url";
+import escuro from "../assets/logo/ls-brew-fundo-escuro.svg?url";
+const { variante = "claro", classe = "" } = Astro.props;
 ---
-<span class={`logo ${classe}`.trim()} set:html={acessivel} />
+<img class={`logo ${classe}`.trim()} src={variante === "escuro" ? escuro : claro} alt="LS Brew" width="766" height="236" />
 <style>
-  .logo { display: inline-block; line-height: 0; }
-  .logo :global(svg) { height: 100%; width: auto; }
+  .logo { width: auto; }
 </style>

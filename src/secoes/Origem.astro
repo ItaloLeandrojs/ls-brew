@@ -3,7 +3,7 @@ import { LOTES } from "../dados/lotes.js";
 import { FOTO_ORIGEM, versao600 } from "../dados/fotos.js";
 const base = import.meta.env.BASE_URL;
 ---
-<section id="origem" class="secao">
+<section id="origem" class="secao origem">
   <div class="miolo">
     <div class="origem-grade">
       <div>
@@ -18,11 +18,12 @@ const base = import.meta.env.BASE_URL;
           <circle cx="340" cy="50" r="9" fill="var(--cafe)"/><text x="230" y="36" font-size="16" fill="var(--cafe)">Fortaleza</text>
         </svg>
       </div>
-      <img class="foto-origem" data-revelar src={`${base}fotos/${FOTO_ORIGEM.arquivo}`} srcset={`${base}fotos/${versao600(FOTO_ORIGEM.arquivo)} 600w, ${base}fotos/${FOTO_ORIGEM.arquivo} 1200w`} sizes="(max-width: 860px) 100vw, 540px" alt={FOTO_ORIGEM.alt} loading="lazy" decoding="async" width={FOTO_ORIGEM.largura} height={FOTO_ORIGEM.altura} />
+      <img class="foto-origem" data-revelar src={`${base}fotos/${FOTO_ORIGEM.arquivo}`} srcset={`${base}fotos/${versao600(FOTO_ORIGEM.arquivo)} 600w, ${base}fotos/${FOTO_ORIGEM.arquivo} 1200w`} sizes="(max-width: 860px) calc(100vw - 32px), 540px" alt={FOTO_ORIGEM.alt} loading="lazy" decoding="async" width={FOTO_ORIGEM.largura} height={FOTO_ORIGEM.altura} />
     </div>
-    <div class="lotes">
+    <!-- Celular: carrossel deslizante (o próximo card aparece na borda). Computador: três colunas. -->
+    <div class="lotes" role="region" aria-label="Os três lotes" tabindex="0" data-revelar>
       {LOTES.map((l) => (
-        <article class="lote" data-revelar>
+        <article class="lote">
           <p class="rotulo">{l.sitio} · {l.cidade} · {l.processo}</p>
           <h3>{l.nome}</h3>
           <p class="alt"><span data-contar={l.altitude}>{l.altitude.toLocaleString("pt-BR")}</span> m</p>
@@ -33,3 +34,23 @@ const base = import.meta.env.BASE_URL;
     </div>
   </div>
 </section>
+<style>
+  .origem-grade { display: grid; gap: 24px; }
+  .mapa { width: 100%; max-width: 360px; height: auto; margin-top: 8px; color: var(--caramelo-texto); }
+  .foto-origem { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--raio); }
+  .lotes {
+    display: flex; gap: 12px; margin: 32px calc(-1 * var(--margem)) 0; padding: 0 var(--margem) 4px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margem); overscroll-behavior-x: contain; scrollbar-width: none;
+  }
+  .lotes::-webkit-scrollbar { display: none; }
+  .lote { flex: 0 0 min(84%, 340px); scroll-snap-align: start; background: var(--bege); border-radius: var(--raio); padding: 22px; }
+  .lote .rotulo { color: var(--texto-2); } /* caramelo-texto não passa no AA sobre o bege */
+  .lote .alt { font: 600 34px var(--titulo); font-variant-numeric: tabular-nums; margin-bottom: .4em; }
+  .lote .notas { color: var(--texto-2); font-size: 15px; margin: 0; }
+  @media (min-width: 861px) {
+    .origem-grade { grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+    .mapa { max-width: 420px; margin-top: 24px; }
+    .foto-origem { aspect-ratio: 4 / 5; }
+    .lotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 48px 0 0; padding: 0; overflow: visible; }
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+// Quiz: as perguntas e os resultados vêm prontos no HTML; o JavaScript mostra um passo de cada vez.
+import { PERGUNTAS } from "../dados/quiz.js";
+import { LOTES } from "../dados/lotes.js";
+import simbolo from "../assets/logo/ls-brew-simbolo-fundo-claro.svg?url";
+---
+<section id="quiz" class="secao">
+  <div class="miolo">
+    <p class="rotulo">Quiz</p>
+    <h2>Qual café combina com você?</h2>
+    <p class="sub so-sem-js">O quiz precisa de JavaScript ligado.</p>
+    <div class="quiz precisa-js" data-quiz>
+      {PERGUNTAS.map((p, i) => (
+        <fieldset class="quiz-pergunta" data-pergunta={p.id} hidden={i > 0}>
+          <legend><span class="rotulo">Pergunta {i + 1} de {PERGUNTAS.length}</span><h3 tabindex="-1">{p.texto}</h3></legend>
+          <div class="opcoes">
+            {p.opcoes.map((o) => <button type="button" class="opcao" data-opcao={o.id} aria-pressed="false">{o.texto}</button>)}
+          </div>
+          <p role="alert" class="erro"></p>
+          <button type="button" class="botao" data-avancar>{i < PERGUNTAS.length - 1 ? "Próxima" : "Ver resultado"}</button>
+        </fieldset>
+      ))}
+      {LOTES.map((l) => (
+        <div class="quiz-resultado" data-resultado={l.id} hidden>
+          <img src={simbolo} alt="" width="64" height="64" />
+          <p class="rotulo">Seu café é</p>
+          <h3 tabindex="-1">{l.nome}</h3>
+          <p>{l.descricao}</p>
+          <p class="notas">{l.notas.join(" · ")}</p>
+          <div class="controles"><a class="botao" href="#cardapio">Ver no cardápio</a><button type="button" class="botao contorno" data-refazer>Refazer</button></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+<script>
+  import { iniciarQuiz } from "../cliente/quiz.js";
+  iniciarQuiz(document.querySelector("[data-quiz]"));
+</script>
+<style>
+  .quiz { max-width: 720px; }
+  .quiz-pergunta { border: 0; padding: 0; margin: 24px 0 0; min-width: 0; }
+  .quiz-pergunta:not([hidden]), .quiz-resultado:not([hidden]) { animation: entra .3s var(--ease-out); }
+  .quiz-pergunta legend { padding: 0; }
+  .quiz h3:focus { outline: none; }
+  .quiz h3:focus-visible { outline: 2.5px solid var(--cafe); outline-offset: 4px; border-radius: 4px; }
+  .opcoes { display: grid; gap: 10px; margin: 16px 0; }
+  .opcao {
+    text-align: left; min-height: 56px; padding: 14px 18px; border-radius: var(--raio); border: 1.5px solid var(--bege);
+    background: var(--creme); color: var(--cafe); font: 400 17px/1.35 var(--texto); cursor: pointer;
+    transition: border-color .16s var(--ease-out), background-color .16s var(--ease-out);
+  }
+  .opcao:active { transform: scale(.99); }
+  .opcao[aria-pressed="true"] { border-color: var(--cafe); background: var(--bege); }
+  @media (hover: hover) and (pointer: fine) { .opcao:hover { border-color: var(--caramelo); } }
+  .erro { color: var(--erro); font-size: 15px; margin: 0 0 12px; }
+  .erro:empty { margin: 0; } /* sempre no DOM (vazio): assim o leitor de tela anuncia quando o texto entra */
+  .quiz-resultado { margin-top: 24px; max-width: 560px; }
+  .quiz-resultado .notas { color: var(--caramelo-texto); }
+  .quiz-resultado .controles { display: flex; gap: 12px; flex-wrap: wrap; }
+  @media (min-width: 861px) { .quiz-pergunta, .quiz-resultado { margin-top: 32px; } }
+</style>

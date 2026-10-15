@@ -1,4 +1,5 @@
 ---
+// Rodapé com a newsletter (só visual: valida e agradece, não envia nada).
 import Logo from "../ui/Logo.astro";
 import { CONTATO } from "../dados/contato.js";
 ---
@@ -6,16 +7,47 @@ import { CONTATO } from "../dados/contato.js";
   <div class="miolo rodape-grade">
     <div>
       <Logo variante="escuro" />
-      <p style="margin-top:16px">Café especial de sombra, torra lenta e preparo na hora.</p>
+      <p class="rodape-frase">Café especial de sombra, torra lenta e preparo na hora.</p>
       <p>{CONTATO.instagram}</p>
     </div>
     <div>
       <div class="precisa-js">
-        <h3 style="color: var(--creme)">Lotes novos no seu e-mail</h3>
-        <slot />
+        <h3>Lotes novos no seu e-mail</h3>
+        <form class="news" novalidate data-news>
+          <label for="news-email">Seu e-mail</label>
+          <div class="news-linha">
+            <!-- 16 px ou mais: o iPhone não dá zoom no campo. enterkeyhint muda a tecla Enter do teclado para "Enviar". -->
+            <input id="news-email" name="email" type="email" inputmode="email" autocomplete="email" enterkeyhint="send" autocapitalize="off" spellcheck="false" />
+            <button class="botao" type="submit">Assinar</button>
+          </div>
+          <p id="news-erro" role="alert" class="erro"></p>
+        </form>
+        <p class="news-ok" role="status" tabindex="-1"></p>
       </div>
-      <noscript><p>Para receber os lotes novos, siga a gente no {CONTATO.instagram}.</p></noscript>
+      <p class="so-sem-js">Para receber os lotes novos, siga a gente no {CONTATO.instagram}.</p>
     </div>
   </div>
   <small class="miolo">Projeto de portfólio LS · cafeteria, endereço e telefone fictícios. Fotos e vídeo: Pexels. Letras Fraunces e Outfit (SIL OFL).</small>
 </footer>
+<script>
+  import { iniciarNewsletter } from "../cliente/newsletter.js";
+  iniciarNewsletter(document.querySelector("[data-news]"), document.querySelector(".news-ok"));
+</script>
+<style>
+  /* Embaixo, espaço para a barra fixa do celular não cobrir o fim da página. */
+  .rodape { background: var(--cafe); color: var(--creme); padding: 56px var(--margem) calc(32px + var(--barra) + var(--seguro-baixo)); }
+  .rodape :global(.logo) { height: 40px; }
+  .rodape-frase { margin-top: 16px; }
+  .rodape-grade { display: grid; gap: 32px; }
+  .rodape h3 { color: var(--creme); }
+  .rodape small { display: block; margin-top: 40px; opacity: .85; font-size: 13px; }
+  .rodape :focus-visible { outline-color: var(--creme); }
+  .news label { display: block; margin-bottom: 8px; }
+  .news-linha { display: flex; gap: 8px; flex-wrap: wrap; }
+  .news input { flex: 1 1 200px; min-width: 0; min-height: var(--toque); padding: 12px 18px; border-radius: 999px; border: 1.5px solid var(--creme); background: transparent; color: var(--creme); font: 400 16px var(--texto); }
+  .news .erro { color: var(--erro-escuro); font-size: 15px; margin: 10px 0 0; }
+  .news .erro:empty { margin: 0; }
+  .news-ok { font-size: 18px; margin: 0; }
+  .news-ok:focus { outline: none; }
+  @media (min-width: 861px) { .rodape { padding: 64px var(--margem) 32px; } .rodape-grade { grid-template-columns: 1.2fr 1fr; gap: 40px; } }
+</style>

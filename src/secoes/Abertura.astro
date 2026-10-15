@@ -1,7 +1,79 @@
 ---
-import AberturaCena from "./AberturaCena.jsx";
+// Abertura: latte art do Pexels (6769791, trecho de 3,5 a 17,3 s) em 120 quadros WebP (scripts/quadros.sh).
+// Retrato (celular, tablet em pé): recorte aberto 3:4 com bordas esfumando no escuro. Paisagem: 16:9.
+// Sem JavaScript ou com "reduzir movimento": imagem parada e as três frases juntas.
 import logo from "../assets/logo/ls-brew-fundo-escuro.svg?url";
+import { FRASES } from "../dominio/abertura.js";
 const base = import.meta.env.BASE_URL;
-// Vídeos em public/video: latte art do Pexels (6769791), trecho de 3,5 a 17,3 s; o celular tem um recorte aberto próprio.
+const conjuntos = {
+  celular: { pasta: `${base}abertura/celular/`, total: 120, largura: 960, altura: 1280, maxAbertos: 14, final: "120.webp" },
+  computador: { pasta: `${base}abertura/computador/`, total: 120, largura: 1600, altura: 900, maxAbertos: 24, final: "120.webp" },
+};
+const { celular, computador } = conjuntos;
 ---
-<AberturaCena client:load base={base} logo={logo} />
+<section id="inicio" class="cena" data-fase="0" data-conjuntos={JSON.stringify(conjuntos)}>
+  <div class="cena-palco">
+    <picture>
+      <source media="(orientation: portrait)" srcset={`${celular.pasta}001.webp`} width={celular.largura} height={celular.altura} />
+      <img class="cena-capa" src={`${computador.pasta}001.webp`} width={computador.largura} height={computador.altura} alt="Latte art sendo desenhada numa xícara de café" fetchpriority="high" />
+    </picture>
+    <canvas class="cena-canvas" aria-hidden="true"></canvas>
+    <div class="cena-texto">
+      <h1 class="sr">LS Brew · café especial da Serra de Baturité em Fortaleza</h1>
+      {FRASES.map((f, i) => <p class="frase" data-item={i}>{f}</p>)}
+      <img class="cena-logo" data-item="3" src={logo} alt="LS Brew" width="766" height="236" />
+    </div>
+    <div class="cena-saida" aria-hidden="true"></div>
+  </div>
+</section>
+<script>
+  import { iniciarAbertura } from "../cliente/abertura.js";
+  iniciarAbertura(document.getElementById("inicio"));
+</script>
+<style>
+  /* A seção é alta (palco + 3 telas de rolagem) e o palco fica preso no topo com position: sticky:
+     quem prende é o navegador, na mesma thread da rolagem, então não há pulo ao prender nem ao soltar.
+     100lvh: altura da tela grande, que não muda quando a barra de endereço some (100dvh mudava e a cena pulava).
+     --folga: no Android a página também é desenhada atrás da barra de gestos; o palco fica 6rem mais alto. */
+  .cena { --folga: 6rem; --rolagem: 3; position: relative; height: calc(100lvh + var(--folga) + var(--rolagem) * 100lvh); background: var(--escuro); color: var(--creme); }
+  .cena-palco { position: sticky; top: 0; height: calc(100lvh + var(--folga)); overflow: hidden; }
+  .cena-capa, .cena-canvas { position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - var(--folga)); object-fit: cover; }
+  /* O canvas só aparece depois de desenhar o primeiro quadro; até lá fica a capa (o mesmo quadro, vindo no HTML). */
+  .cena-canvas { opacity: 0; transition: opacity .3s var(--ease-out); }
+  .cena-pronta .cena-canvas { opacity: 1; }
+  /* Retrato: a imagem inteira na largura (enquadramento aberto, mostra a xícara), bordas já esfumadas no escuro. */
+  @media (orientation: portrait) { .cena-capa, .cena-canvas { object-fit: contain; } }
+
+  /* Frases centralizadas na parte sempre visível: sobe o que a barra do navegador, a folga e a barra de baixo escondem. */
+  .cena-texto {
+    position: relative; z-index: 1; display: grid; place-items: center; height: 100%; text-align: center;
+    padding: 0 var(--margem) calc(100lvh - 100svh + var(--folga) + var(--barra) + var(--seguro-baixo));
+    background: radial-gradient(ellipse at center, rgba(26, 18, 13, .5) 0%, rgba(26, 18, 13, .28) 70%);
+  }
+  .cena-texto > * { grid-area: 1 / 1; }
+  .frase { font: 600 clamp(40px, 11vw, 96px)/1.05 var(--titulo); margin: 0; max-width: 12ch; text-shadow: 0 2px 24px rgba(0, 0, 0, .35); }
+  .cena-logo { width: min(520px, 78vw); height: auto; filter: drop-shadow(0 2px 18px rgba(0, 0, 0, .45)); }
+  /* Troca de frase: só opacidade e transform (rodam fora da thread principal). */
+  :global(.js) .cena [data-item] { opacity: 0; transform: translateY(16px); transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
+  :global(.js) .cena[data-fase="0"] [data-item="0"], :global(.js) .cena[data-fase="1"] [data-item="1"],
+  :global(.js) .cena[data-fase="2"] [data-item="2"], :global(.js) .cena[data-fase="3"] [data-item="3"] { opacity: 1; transform: none; }
+
+  /* Saída: nos últimos 10% da rolagem a parte de baixo esmaece para o creme e emenda na seção seguinte. */
+  .cena-saida { position: absolute; inset: 0; z-index: 2; opacity: 0; pointer-events: none; background: linear-gradient(to bottom, transparent 0%, transparent 50%, var(--creme) 97%); }
+
+  /* Parado (sem JavaScript, reduzir movimento, economia de dados): uma tela só, frases e logo juntos. */
+  :global(html:not(.js)) .cena, .cena[data-modo="parado"] { height: auto; }
+  :global(html:not(.js)) .cena-palco, .cena[data-modo="parado"] .cena-palco { position: relative; height: 100svh; min-height: 560px; }
+  :global(html:not(.js)) .cena-capa, .cena[data-modo="parado"] .cena-capa { height: 100%; }
+  :global(html:not(.js)) .cena-texto, .cena[data-modo="parado"] .cena-texto { grid-auto-flow: row; align-content: center; gap: 8px; padding-bottom: calc(var(--barra) + var(--seguro-baixo)); }
+  :global(html:not(.js)) .cena-texto > *, .cena[data-modo="parado"] .cena-texto > * { grid-area: auto; }
+  .cena[data-modo="parado"] [data-item] { opacity: 1; transform: none; }
+  :global(html:not(.js)) .frase, .cena[data-modo="parado"] .frase { font-size: clamp(32px, 8vw, 64px); }
+  .cena[data-modo="parado"] .cena-canvas, .cena[data-modo="parado"] .cena-saida { display: none; }
+
+  @media (min-width: 861px) {
+    .cena { --folga: 0px; }
+    .cena-texto { padding-bottom: calc(100lvh - 100svh); padding-top: var(--topo); }
+    :global(html:not(.js)) .cena-texto, .cena[data-modo="parado"] .cena-texto { padding-bottom: 0; }
+  }
+</style>
