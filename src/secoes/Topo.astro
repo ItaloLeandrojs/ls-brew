@@ -20,7 +20,7 @@ import { SECOES } from "./links.js";
   .topo-logo { display: flex; align-items: center; min-height: var(--toque); }
   .topo :global(.logo) { height: 30px; }
   .topo :global(.logo-computador), .topo-nav, .topo-pedir { display: none; }
-  @media (min-width: 861px) {
+  @media (min-width: 861px) and (pointer: fine) {
     /* Cor sólida, sem desfoque: o backdrop-filter pesa a cada quadro da rolagem. */
     .topo { position: fixed; height: var(--topo); padding-block: 0; justify-content: space-between; gap: 16px; background: var(--creme); border-bottom: 1px solid var(--bege); }
     .topo :global(.logo-celular) { display: none; }

@@ -4,7 +4,7 @@
 .js [data-revelar].visivel { opacity: 1; transform: none; }
 .js [data-desenhar] path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease-out); }
 .js [data-desenhar].visivel path { stroke-dashoffset: 0; }
-@media (min-width: 861px) {
+@media (min-width: 861px) and (pointer: fine) {
   .js [data-revelar] { transform: translateY(24px); transition-duration: .7s; }
   main > section { scroll-margin-top: var(--topo); }
 }

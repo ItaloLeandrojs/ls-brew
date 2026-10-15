@@ -17,6 +17,7 @@ const irNaAbertura = (page, p) => page.evaluate((p) => {
   scrollTo({ top: s.offsetTop + p * curso, behavior: "instant" });
 }, p);
 const irPara = (page, sel) => page.evaluate((sel) => document.querySelector(sel).scrollIntoView({ behavior: "instant" }), sel);
+const innerHeightAprox = () => 915;
 const estado = (page) => page.evaluate(() => window.__lsAbertura?.estado());
 
 const parar = await servidor();
@@ -199,6 +200,7 @@ try {
     await page.goto(URL_BASE);
     await page.waitForFunction(() => document.getElementById("inicio").classList.contains("cena-pronta"), null, { timeout: 15000 }).catch(() => {});
     confere(await page.locator("#inicio").getAttribute("data-conjunto") === "computador", "deitado: quadros de paisagem");
+    confere(await page.locator(".barra").isVisible(), "deitado: continua no layout de celular (barra de baixo)");
     let pior = 0;
     for (const p of [0.1, 0.4, 0.8, 0.3, 0.6]) {
       await irNaAbertura(page, p);
@@ -220,6 +222,22 @@ try {
     await page.waitForTimeout(800);
     const e = await estado(page);
     confere(Math.abs(e.atual - quadroDaRolagem(0.5, 120)) < 1.5 && e.abertos <= 14, `girou: quadro certo (${e.atual.toFixed(1)}) e memória no teto (${e.abertos})`);
+    // Girar duas vezes seguidas: sobra um canvas só
+    await page.setViewportSize({ width: 915, height: 412 });
+    await page.waitForTimeout(50);
+    await page.setViewportSize({ width: 412, height: 915 });
+    await page.waitForTimeout(2500);
+    confere(await page.locator("#inicio canvas").count() === 1, `girar duas vezes seguidas: sobra um canvas só (${await page.locator("#inicio canvas").count()})`);
+    // Girar lendo o Cardápio: a página não volta para o topo
+    await irPara(page, "#cardapio");
+    await page.waitForTimeout(300);
+    await page.setViewportSize({ width: 915, height: 412 });
+    await page.waitForTimeout(500);
+    await page.setViewportSize({ width: 412, height: 915 });
+    await page.waitForTimeout(500);
+    const cardapioTopo = await page.locator("#cardapio").evaluate((el) => el.getBoundingClientRect().top);
+    confere(await page.evaluate(() => scrollY) > 1000 && Math.abs(cardapioTopo) < innerHeightAprox(), `girar lendo o Cardápio não volta para o topo (topo do Cardápio em ${cardapioTopo.toFixed(0)} px)`);
+    await page.locator(".barra").waitFor({ state: "visible" });
     // Gaveta aberta: a página não rola por trás
     await page.getByRole("button", { name: "Seções" }).click();
     await page.getByRole("dialog", { name: "Seções" }).waitFor({ state: "visible" });

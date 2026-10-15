@@ -47,7 +47,7 @@ import { formatarPreco } from "../dominio/preco.js";
   .item .desc { margin: 0; color: var(--texto-2); font-size: 15px; }
   .item .notas { margin: 4px 0 0; color: var(--caramelo-texto); font-size: 14px; }
   .item .preco { font-weight: 500; }
-  @media (min-width: 861px) { .itens { grid-template-columns: 1fr 1fr; gap: 0 48px; } .item { padding: 18px 0; } .item h3 { font-size: 20px; } }
+  @media (min-width: 861px) and (pointer: fine) { .itens { grid-template-columns: 1fr 1fr; gap: 0 48px; } .item { padding: 18px 0; } .item h3 { font-size: 20px; } }
 </style>
 <style is:global>
   /* Abas em linha deslizante no celular (não quebram em duas linhas); também usadas no Preparo. */
@@ -64,5 +64,5 @@ import { formatarPreco } from "../dominio/preco.js";
   .aba:active { transform: scale(.97); }
   .aba[aria-selected="true"], .aba[aria-pressed="true"] { background: var(--cafe); color: var(--creme); }
   @keyframes entra { from { opacity: 0; transform: translateY(8px); } }
-  @media (min-width: 861px) { .abas { flex-wrap: wrap; margin: 32px 0; padding: 0; overflow: visible; } .aba { min-height: 44px; } }
+  @media (min-width: 861px) and (pointer: fine) { .abas { flex-wrap: wrap; margin: 32px 0; padding: 0; overflow: visible; } .aba { min-height: 44px; } }
 </style>

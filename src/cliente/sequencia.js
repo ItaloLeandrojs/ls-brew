@@ -46,6 +46,7 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
   let atual = 0;
   let sentido = 1;
   let baseJanela = -1;
+  let posicionada = false;
   let ultimoDesenho = "";
   let desenhos = 0;
   let baixados = 0;
@@ -133,6 +134,9 @@ export function criarSequencia({ canvas, endereco, total, largura, altura, maxAb
     passo,
     /** Novo alvo em quadros (com fração). */
     irPara(q) {
+      // Primeira posição (página aberta no meio, ou sequência nova depois de girar): começa direto nela,
+      // sem passar pelos quadros do início.
+      if (!posicionada) { posicionada = true; alvo = atual = q; organizar(); return; }
       if (q === alvo) return;
       sentido = q > alvo ? 1 : -1;
       alvo = q;

@@ -75,7 +75,7 @@ const { celular, computador } = conjuntos;
   :global(html:not(.js)) .frase, .cena[data-modo="parado"] .frase { font-size: clamp(32px, 8vw, 64px); }
   .cena[data-modo="parado"] .cena-canvas, .cena[data-modo="parado"] .cena-saida { display: none; }
 
-  @media (min-width: 861px) {
+  @media (min-width: 861px) and (pointer: fine) {
     .cena { --folga: 0px; }
     .cena-texto { padding-bottom: calc(100lvh - 100svh); padding-top: var(--topo); }
     :global(html:not(.js)) .cena-texto, .cena[data-modo="parado"] .cena-texto { padding-bottom: 0; }

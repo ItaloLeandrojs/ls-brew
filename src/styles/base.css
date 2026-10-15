@@ -41,7 +41,7 @@ button, a, [role="tab"] { touch-action: manipulation; }
 html:not(.js) .precisa-js { display: none !important; }
 .js .so-sem-js { display: none !important; }
 
-@media (min-width: 861px) {
+@media (min-width: 861px) and (pointer: fine) {
   .secao { padding: clamp(96px, 10vw, 140px) var(--margem); }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

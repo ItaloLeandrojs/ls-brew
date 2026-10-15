@@ -32,6 +32,7 @@ export function iniciarAbertura(secao) {
 
   const toque = matchMedia("(pointer: coarse)").matches;
   let canvas = secao.querySelector(".cena-canvas");
+  let pendente = null; // canvas novo (depois de girar) que ainda não desenhou
   let seq = null;
   let total = 0;
   let fase = -1;
@@ -59,8 +60,11 @@ export function iniciarAbertura(secao) {
     total = c.total;
     // Ao girar o aparelho: o canvas novo fica escondido até desenhar o primeiro quadro e só então substitui
     // o antigo (limpar o mesmo canvas deixava a cena preta por um instante).
+    // Girou de novo antes do pendente desenhar: ele sai (senão sobrava um canvas escondido a cada giro).
+    pendente?.remove();
+    pendente = null;
     const novo = antiga ? canvas.cloneNode(false) : canvas;
-    if (antiga) { novo.style.visibility = "hidden"; canvas.after(novo); }
+    if (antiga) { novo.style.visibility = "hidden"; canvas.after(novo); pendente = novo; }
     seq = criarSequencia({
       canvas: novo,
       total: c.total,
@@ -71,7 +75,7 @@ export function iniciarAbertura(secao) {
       comecarQuando: carregou,
       aoMudar: acordar,
       aoDesenharPrimeiro: () => {
-        if (novo !== canvas) { canvas.remove(); canvas = novo; novo.style.visibility = ""; }
+        if (novo !== canvas) { canvas.remove(); canvas = novo; novo.style.visibility = ""; pendente = null; }
         secao.dataset.conjunto = retrato.matches ? "celular" : "computador";
         secao.classList.add("cena-pronta");
       },
