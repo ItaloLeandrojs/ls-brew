@@ -100,3 +100,4 @@ html:not(.js) .precisa-js { display: none; }
 .news input { flex: 1; min-width: 0; padding: 12px 16px; border-radius: 999px; border: 1.5px solid var(--creme); background: transparent; color: var(--creme); font: 400 16px var(--texto); }
 .rodape .erro { color: var(--erro-escuro); }
 .news-ok { font-size: 18px; }
+.rodape :focus-visible, .plano.destaque :focus-visible { outline-color: var(--creme); }

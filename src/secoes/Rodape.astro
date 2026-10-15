@@ -10,8 +10,11 @@ import { CONTATO } from "../dados/contato.js";
       <p>{CONTATO.instagram}</p>
     </div>
     <div>
-      <h3 style="color: var(--creme)">Lotes novos no seu e-mail</h3>
-      <slot />
+      <div class="precisa-js">
+        <h3 style="color: var(--creme)">Lotes novos no seu e-mail</h3>
+        <slot />
+      </div>
+      <noscript><p>Para receber os lotes novos, siga a gente no {CONTATO.instagram}.</p></noscript>
     </div>
   </div>
   <small class="miolo">Projeto de portfólio LS · cafeteria, endereço e telefone fictícios. Fotos e vídeo: Pexels. Letras Fraunces e Outfit (SIL OFL).</small>
